@@ -253,8 +253,6 @@ async function processVoiceCommand(command) {
 // Función modificada para inicializar el asistente de voz integrado con LangGraph
 // --- Dentro de agents.js ---
 
-// ... (resto del código de agents.js: initializeLangGraphConversation, getAssistantResponse, etc.) ...
-
 // Función modificada para inicializar el asistente de voz con modo "click-to-talk, click-to-stop"
 function initVoiceAssistantSection() {
     const micButton = document.getElementById('mic-button');
