@@ -1759,25 +1759,51 @@ body {
 }
 
 
+/* --- CSS MODIFICADO PARA LA SECCIÓN DEL ASISTENTE DE VOZ --- */
 
-/* CSS para la sección del asistente de voz */
+/* Variables (Asegúrate de tenerlas definidas en tu :root o similar) */
+:root {
+    --coppel-blue: #005AA3;
+    /* Ejemplo */
+    --coppel-dark-blue: #004080;
+    /* Ejemplo */
+    --coppel-yellow: #FFD700;
+    /* Ejemplo */
+    --coppel-light-gray: #f0f0f0;
+    /* Ejemplo */
+    --coppel-dark-gray: #6c757d;
+    /* Ejemplo */
+    --coppel-text: #333;
+    /* Ejemplo */
+    --coppel-red: #dc3545;
+    /* Ejemplo */
+}
+
 #asistente-section {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    /* Quitamos justify-content: center para que no mueva todo al cambiar altura */
+    /* justify-content: center; */
+    justify-content: flex-start;
+    /* Alinea al inicio verticalmente */
     padding: 20px;
     height: 100%;
+    /* Agregamos overflow por si el contenido excede la pantalla */
+    overflow-y: auto;
 }
 
 .voice-assistant-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    /* justify-content: center; <- Movido a #asistente-section o eliminado */
     width: 100%;
-    height: 100%;
-    padding: 20px;
+    /* No necesita height: 100% aquí si #asistente-section ya lo gestiona */
+    padding: 10px 20px 20px 20px;
+    /* Ajusta padding si es necesario */
+    /* Añadimos espacio para respirar arriba */
+    padding-top: 30px;
 }
 
 .voice-mic-container {
@@ -1788,9 +1814,11 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 30px;
+    /* Eliminamos margin-bottom: 30px; lo controlaremos en el siguiente elemento */
     position: relative;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+    /* Evita que se encoja si hay poco espacio */
 }
 
 .voice-mic-button {
@@ -1878,16 +1906,25 @@ body {
 .voice-result-container {
     width: 100%;
     max-width: 300px;
+    /* min-height: auto; <- Mejor definir una altura mínima específica */
     min-height: 60px;
+    /* Ejemplo: Altura mínima para que no colapse */
+    /* Añadimos max-height y overflow para respuestas largas */
+    max-height: 150px;
+    /* Ejemplo: Altura máxima antes de hacer scroll */
+    overflow-y: auto;
+    /* Muestra scroll si el contenido excede max-height */
     background-color: white;
     border-radius: 15px;
     padding: 15px;
-    margin-top: 20px;
+    margin-top: 30px;
+    /* Añade espacio entre el micro y este contenedor */
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s;
     text-align: center;
     border: 2px solid var(--coppel-light-gray);
     position: relative;
+    /* Mantenido por si se usa ::before/::after */
 }
 
 .voice-result-container.active {
@@ -1898,12 +1935,15 @@ body {
 .voice-result-text {
     font-size: 1rem;
     color: var(--coppel-text);
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; <- Eliminado, el padding del contenedor ya da espacio */
+    text-align: left;
+    /* Opcional: Alinear texto a la izquierda puede ser mejor para lecturas largas */
 }
 
 .voice-instructions {
     text-align: center;
-    margin-top: 30px;
+    margin-top: 25px;
+    /* Espacio sobre las instrucciones */
     font-size: 0.9rem;
     color: var(--coppel-dark-gray);
     max-width: 300px;
@@ -1913,6 +1953,8 @@ body {
     margin-top: 20px;
     width: 100%;
     max-width: 300px;
+    /* Opcional: Añadir margen inferior si es el último elemento */
+    margin-bottom: 20px;
 }
 
 .voice-command-item {
@@ -1941,6 +1983,8 @@ body {
     align-items: center;
     justify-content: center;
     margin-right: 15px;
+    flex-shrink: 0;
+    /* Evita que se encoja */
 }
 
 .voice-command-icon svg {
@@ -1957,6 +2001,8 @@ body {
 @keyframes pop-in {
     0% {
         transform: scale(0.9);
+        opacity: 0.8;
+        /* Añadir opacity para suavizar */
     }
 
     50% {
@@ -1965,8 +2011,31 @@ body {
 
     100% {
         transform: scale(1);
+        opacity: 1;
+        /* Asegurar opacidad final */
     }
 }
+
+/* Animación bounce (ejemplo, puedes ajustarla) */
+@keyframes bounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-10px);
+    }
+
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
 
 /* Para pantallas pequeñas */
 @media (max-width: 380px) {
@@ -1986,7 +2055,10 @@ body {
     }
 
     .voice-result-container {
-        max-width: 250px;
+        max-width: 90%;
+        /* Usar porcentaje para mejor adaptabilidad */
+        max-height: 120px;
+        /* Reducir altura máxima en pantallas pequeñas */
     }
 
     .voice-result-text {
@@ -1995,7 +2067,8 @@ body {
 
     .voice-instructions,
     .voice-commands {
-        max-width: 250px;
+        max-width: 90%;
+        /* Usar porcentaje */
     }
 }
 
