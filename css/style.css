@@ -1,0 +1,3097 @@
+/* Reset y estilos base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+:root {
+    --coppel-blue: #005AA3;
+    --coppel-dark-blue: #003D6E;
+    --coppel-yellow: #FFD700;
+    --coppel-light-yellow: #FFF9C4;
+    --coppel-white: #FFFFFF;
+    --coppel-light-gray: #F5F5F5;
+    --coppel-gray: #E0E0E0;
+    --coppel-dark-gray: #757575;
+    --coppel-text: #212121;
+    --coppel-green: #4CAF50;
+    --coppel-orange: #FF9800;
+    --coppel-red: #E30613;
+}
+
+/* Estilos base ajustados */
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    background-color: #fff;
+}
+
+/* Eliminamos marco pero mantenemos estructura responsive */
+.iphone-container {
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    position: relative;
+    background: transparent;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+    overflow: hidden;
+    max-width: 500px;
+    /* Limitar ancho máximo en pantallas grandes */
+    margin: 0 auto;
+}
+
+.iphone-notch,
+.iphone-home-button {
+    display: none;
+}
+
+.iphone-screen {
+    width: 100%;
+    height: 100%;
+    background: var(--coppel-white);
+    border-radius: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Ajustes para el encabezado */
+.app-header {
+    padding: 15px 15px 10px;
+    background: linear-gradient(to bottom, var(--coppel-white), var(--coppel-light-gray));
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    border-bottom: 1px solid var(--coppel-light-gray);
+}
+
+.app-header .logo {
+    height: 30px;
+    margin-bottom: 10px;
+    transition: transform 0.3s;
+}
+
+.app-header h1 {
+    font-size: 1.5rem;
+    color: var(--coppel-blue);
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.app-header p {
+    font-size: 0.9rem;
+    color: var(--coppel-dark-gray);
+}
+
+.back-button {
+    position: absolute;
+    left: 15px;
+    top: 25px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.back-button:hover {
+    transform: translateX(-3px);
+}
+
+.back-button svg {
+    width: 24px;
+    height: 24px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.user-info span {
+    font-size: 0.8rem;
+    color: var(--coppel-dark-gray);
+    font-weight: 500;
+}
+
+.logout-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.logout-btn:hover {
+    transform: rotate(180deg);
+}
+
+.logout-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.app-footer {
+    padding: 10px;
+    text-align: center;
+    font-size: 0.7rem;
+    color: var(--coppel-dark-gray);
+    margin-top: auto;
+    position: relative;
+}
+
+/* Ajustes para la navegación inferior */
+.bottom-nav {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    background: var(--coppel-white);
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    max-width: 500px;
+    /* Coincide con el ancho máximo del contenedor */
+    margin: 0 auto;
+}
+
+.nav-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: none;
+    border: none;
+    color: var(--coppel-dark-gray);
+    font-size: 0.7rem;
+    cursor: pointer;
+    padding: 5px 0;
+    transition: all 0.3s;
+    position: relative;
+    flex: 1;
+}
+
+.nav-btn svg {
+    width: 22px;
+    height: 22px;
+    margin-bottom: 3px;
+}
+
+.nav-btn.active {
+    color: var(--coppel-blue);
+    transform: translateY(-3px);
+}
+
+.nav-btn.active svg {
+    fill: var(--coppel-blue);
+    transform: scale(1.1);
+}
+
+.nav-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--coppel-blue);
+    transition: all 0.3s;
+    transform: translateX(-50%);
+}
+
+.nav-btn.active::after {
+    width: 20px;
+}
+
+/* Estilos específicos para el botón de asistente por voz */
+#voice-assistant-btn.active {
+    color: var(--coppel-blue);
+}
+
+#voice-assistant-btn.listening {
+    color: var(--coppel-red);
+}
+
+#voice-assistant-btn.listening svg {
+    fill: var(--coppel-red);
+    animation: pulse 1.5s infinite;
+}
+
+/* Notificación de voz */
+.voice-notification {
+    background-color: var(--coppel-blue);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    max-width: 80%;
+    text-align: center;
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    animation: slide-in-bottom 0.3s ease-out;
+}
+
+/* Pantalla de selección de perfil */
+.selection-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profile-card {
+    background: var(--coppel-white);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0, 90, 163, 0.1);
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid transparent;
+}
+
+.profile-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 90, 163, 0.2);
+    border-color: var(--coppel-yellow);
+}
+
+.profile-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 15px;
+    background-color: rgba(0, 90, 163, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s;
+}
+
+.profile-card:hover .profile-icon {
+    transform: scale(1.1);
+    background-color: rgba(0, 90, 163, 0.2);
+}
+
+.profile-icon svg {
+    width: 30px;
+    height: 30px;
+}
+
+.profile-card h2 {
+    font-size: 1.2rem;
+    color: var(--coppel-blue);
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.profile-card p {
+    font-size: 0.9rem;
+    color: var(--coppel-dark-gray);
+}
+
+.ripple {
+    position: absolute;
+    background: rgba(255, 215, 0, 0.4);
+    border-radius: 50%;
+    transform: scale(0);
+    pointer-events: none;
+    animation: ripple 0.6s linear;
+    opacity: 0;
+}
+
+.ripple.active {
+    animation: ripple 0.6s linear;
+}
+
+@keyframes ripple {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+.animated-wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="%23005AA3" opacity=".25"/><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" fill="%23005AA3" opacity=".5"/><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%23FFD700"/></svg>');
+    background-size: cover;
+    animation: wave 10s linear infinite;
+}
+
+@keyframes wave {
+    0% {
+        background-position-x: 0;
+    }
+    100% {
+        background-position-x: 1200px;
+    }
+}
+
+/* Pantalla de login */
+.login-container {
+    padding: 30px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    color: var(--coppel-dark-gray);
+    font-weight: 500;
+}
+
+.input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-with-icon svg {
+    position: absolute;
+    left: 15px;
+    width: 20px;
+    height: 20px;
+    z-index: 2;
+}
+
+.input-with-icon input,
+.input-with-icon textarea,
+.input-with-icon select {
+    padding-left: 45px !important;
+}
+
+.input-group input,
+.input-group textarea,
+.input-group select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--coppel-gray);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s;
+    background-color: var(--coppel-white);
+}
+
+.input-group input:focus,
+.input-group textarea:focus,
+.input-group select:focus {
+    outline: none;
+    border-color: var(--coppel-blue);
+    box-shadow: 0 0 0 3px rgba(0, 90, 163, 0.2);
+}
+
+.show-password {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: background 0.3s;
+}
+
+.show-password:hover {
+    background: rgba(0, 90, 163, 0.1);
+}
+
+.show-password svg {
+    width: 20px;
+    height: 20px;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--coppel-blue);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary:hover {
+    background-color: var(--coppel-dark-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 90, 163, 0.3);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-primary::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%);
+    transform-origin: 50% 50%;
+}
+
+.btn-primary:focus:not(:active)::after {
+    animation: ripple 1s ease-out;
+}
+
+.login-options {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.forgot-password {
+    color: var(--coppel-blue);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+.forgot-password:hover {
+    color: var(--coppel-dark-blue);
+    text-decoration: underline;
+}
+
+.floating-shapes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.shape {
+    position: absolute;
+    opacity: 0.1;
+    animation: float 15s infinite linear;
+}
+
+.shape.circle {
+    width: 100px;
+    height: 100px;
+    background-color: var(--coppel-blue);
+    border-radius: 50%;
+    top: 20%;
+    left: -50px;
+    animation-delay: 0s;
+}
+
+.shape.triangle {
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 100px solid var(--coppel-yellow);
+    top: 60%;
+    right: -50px;
+    animation-delay: 5s;
+}
+
+.shape.square {
+    width: 80px;
+    height: 80px;
+    background-color: var(--coppel-blue);
+    bottom: 10%;
+    left: 30%;
+    animation-delay: 10s;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+    100% {
+        transform: translateY(-1000px) rotate(720deg);
+    }
+}
+
+/* Ajuste del contenedor principal */
+.dashboard-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+    padding-bottom: 80px;
+    /* Espacio para la barra de navegación */
+    scroll-behavior: smooth;
+}
+
+.dashboard-section {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.dashboard-section.active {
+    display: block;
+    opacity: 1;
+}
+
+/* Estilos para tarjetas */
+.card {
+    background: var(--coppel-white);
+    border-radius: 12px;
+    margin-bottom: 15px;
+    box-shadow: 0 5px 15px rgba(0, 90, 163, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 90, 163, 0.2);
+}
+
+.card-header {
+    padding: 15px;
+    background-color: rgba(0, 90, 163, 0.05);
+    border-bottom: 1px solid var(--coppel-gray);
+}
+
+.card-header h3 {
+    font-size: 1rem;
+    color: var(--coppel-blue);
+    font-weight: 600;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--coppel-light-gray);
+}
+
+.info-row:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.info-label {
+    font-weight: 600;
+    color: var(--coppel-dark-gray);
+    font-size: 0.9rem;
+}
+
+.info-value {
+    text-align: right;
+    font-size: 0.9rem;
+}
+
+.btn-secondary {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--coppel-white);
+    color: var(--coppel-blue);
+    border: 2px solid var(--coppel-blue);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 10px;
+}
+
+.btn-secondary:hover {
+    background-color: rgba(0, 90, 163, 0.05);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 90, 163, 0.1);
+}
+
+/* Estilos específicos para microempresario */
+.course-card {
+    background: var(--coppel-white);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 5px 15px rgba(0, 90, 163, 0.1);
+    transition: transform 0.3s;
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+}
+
+.course-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.course-header h3 {
+    font-size: 1rem;
+    color: var(--coppel-text);
+    font-weight: 600;
+}
+
+.progress-badge {
+    font-size: 0.7rem;
+    background: rgba(0, 90, 163, 0.1);
+    color: var(--coppel-blue);
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.progress-container {
+    height: 6px;
+    background: var(--coppel-light-gray);
+    border-radius: 3px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(to right, var(--coppel-blue), var(--coppel-yellow));
+    border-radius: 3px;
+    transition: width 1s ease-in-out;
+}
+
+.course-card p {
+    font-size: 0.9rem;
+    color: var(--coppel-dark-gray);
+    margin-bottom: 15px;
+}
+
+.notification-list {
+    margin-top: 10px;
+}
+
+.notification-item {
+    display: flex;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--coppel-light-gray);
+    transition: all 0.3s;
+}
+
+.notification-item.unread {
+    background-color: rgba(255, 215, 0, 0.05);
+    border-left: 3px solid var(--coppel-yellow);
+    padding-left: 10px;
+}
+
+.notification-icon {
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 90, 163, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    flex-shrink: 0;
+    transition: transform 0.3s;
+}
+
+.notification-item:hover .notification-icon {
+    transform: rotate(15deg);
+}
+
+.notification-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.notification-content {
+    flex: 1;
+}
+
+.notification-content h3 {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    color: var(--coppel-blue);
+}
+
+.notification-content p {
+    font-size: 0.8rem;
+    color: var(--coppel-dark-gray);
+    margin-bottom: 5px;
+}
+
+.notification-time {
+    font-size: 0.7rem;
+    color: var(--coppel-dark-gray);
+}
+
+/* Estilos específicos para empleado */
+.search-bar {
+    display: flex;
+    margin-bottom: 15px;
+    transition: all 0.3s;
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid var(--coppel-gray);
+    border-radius: 8px 0 0 8px;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+}
+
+.search-bar input:focus {
+    outline: none;
+    border-color: var(--coppel-blue);
+    box-shadow: 0 0 0 3px rgba(0, 90, 163, 0.2);
+}
+
+.search-btn {
+    padding: 0 15px;
+    background-color: var(--coppel-blue);
+    color: white;
+    border: none;
+    border-radius: 0 8px 8px 0;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.search-btn:hover {
+    background-color: var(--coppel-dark-blue);
+}
+
+.search-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.microempresarios-list {
+    margin-top: 10px;
+}
+
+.microempresario-card {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background: var(--coppel-white);
+    border-radius: 12px;
+    margin-bottom: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.microempresario-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 90, 163, 0.2);
+}
+
+.microempresario-card.clicked {
+    transform: scale(0.98);
+}
+
+.microempresario-avatar {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(0, 90, 163, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: var(--coppel-blue);
+    margin-right: 15px;
+    flex-shrink: 0;
+    transition: all 0.3s;
+}
+
+.microempresario-card:hover .microempresario-avatar {
+    background-color: rgba(0, 90, 163, 0.2);
+    transform: scale(1.1);
+}
+
+.microempresario-info {
+    flex: 1;
+}
+
+.microempresario-info h3 {
+    font-size: 0.9rem;
+    margin-bottom: 3px;
+    color: var(--coppel-blue);
+}
+
+.microempresario-info p {
+    font-size: 0.8rem;
+    color: var(--coppel-dark-gray);
+    margin-bottom: 3px;
+}
+
+.microempresario-status {
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.microempresario-status.active {
+    background: rgba(76, 175, 80, 0.1);
+    color: var(--coppel-green);
+}
+
+.microempresario-status.pending {
+    background: rgba(255, 152, 0, 0.1);
+    color: var(--coppel-orange);
+}
+
+.microempresario-status.inactive {
+    background: rgba(117, 117, 117, 0.1);
+    color: var(--coppel-dark-gray);
+}
+
+.arrow-icon {
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    transition: transform 0.3s;
+}
+
+.microempresario-card:hover .arrow-icon {
+    transform: translateX(5px);
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    overflow-y: auto;
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    background-color: var(--coppel-white);
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 450px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--coppel-light-gray);
+}
+
+.modal-header h2 {
+    font-size: 1.2rem;
+    color: var(--coppel-blue);
+    font-weight: 600;
+}
+
+.close-modal {
+    font-size: 1.5rem;
+    color: var(--coppel-dark-gray);
+    cursor: pointer;
+    padding: 0 10px;
+    transition: color 0.3s;
+}
+
+.close-modal:hover {
+    color: var(--coppel-blue);
+}
+
+.modal-body {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+/* Detalles de microempresario */
+.micro-detail-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.micro-avatar {
+    width: 60px;
+    height: 60px;
+    background-color: rgba(0, 90, 163, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--coppel-blue);
+    margin-right: 15px;
+}
+
+.micro-title h3 {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    color: var(--coppel-blue);
+}
+
+.micro-title p {
+    font-size: 0.9rem;
+    color: var(--coppel-dark-gray);
+    margin-bottom: 5px;
+}
+
+.status-badge {
+    font-size: 0.7rem;
+    padding: 3px 10px;
+    border-radius: 20px;
+    display: inline-block;
+    font-weight: 600;
+}
+
+.status-badge.active {
+    background: rgba(76, 175, 80, 0.1);
+    color: var(--coppel-green);
+}
+
+.status-badge.pending {
+    background: rgba(255, 152, 0, 0.1);
+    color: var(--coppel-orange);
+}
+
+.status-badge.inactive {
+    background: rgba(117, 117, 117, 0.1);
+    color: var(--coppel-dark-gray);
+}
+
+.detail-section {
+    margin-bottom: 20px;
+}
+
+.detail-section h4 {
+    font-size: 0.9rem;
+    color: var(--coppel-blue);
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--coppel-light-gray);
+    font-weight: 600;
+}
+
+.detail-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.detail-actions button {
+    flex: 1;
+}
+
+/* Mapa */
+.map-container {
+    height: 250px;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 15px;
+    border: 2px solid var(--coppel-blue);
+    box-shadow: 0 5px 15px rgba(0, 90, 163, 0.2);
+}
+
+.leaflet-marker-icon {
+    transition: transform 0.3s;
+}
+
+.leaflet-marker-icon:hover {
+    transform: scale(1.2);
+}
+
+.drop-in {
+    animation: dropIn 0.5s ease-out forwards;
+    opacity: 0;
+    transform: translateY(-50px);
+}
+
+@keyframes dropIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Ruta */
+.route-info {
+    background: var(--coppel-white);
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 5px 15px rgba(0, 90, 163, 0.1);
+}
+
+.route-info h3 {
+    font-size: 1rem;
+    color: var(--coppel-blue);
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.route-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.route-step {
+    display: flex;
+    align-items: flex-start;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--coppel-light-gray);
+    transition: all 0.3s;
+}
+
+.route-step:last-child {
+    border-bottom: none;
+}
+
+.route-step.active {
+    background: rgba(255, 215, 0, 0.05);
+    border-left: 3px solid var(--coppel-yellow);
+    padding-left: 10px;
+    border-radius: 8px;
+}
+
+.step-number {
+    width: 25px;
+    height: 25px;
+    background-color: var(--coppel-blue);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    margin-right: 10px;
+    flex-shrink: 0;
+    font-weight: 600;
+}
+
+.route-step.active .step-number {
+    background-color: var(--coppel-yellow);
+    color: var(--coppel-blue);
+}
+
+.step-info {
+    flex: 1;
+}
+
+.step-info h4 {
+    font-size: 0.9rem;
+    margin-bottom: 3px;
+    color: var(--coppel-blue);
+}
+
+.step-info p {
+    font-size: 0.8rem;
+    color: var(--coppel-dark-gray);
+}
+
+.step-status {
+    font-size: 0.7rem;
+    color: var(--coppel-dark-gray);
+    margin-left: 10px;
+    align-self: center;
+    font-weight: 600;
+}
+
+.route-step.active .step-status {
+    color: var(--coppel-blue);
+}
+
+/* Agenda */
+.date-selector {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    background: var(--coppel-white);
+    padding: 10px 15px;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.date-selector h3 {
+    font-size: 1rem;
+    color: var(--coppel-blue);
+    font-weight: 600;
+}
+
+.date-arrow {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    transition: transform 0.3s;
+}
+
+.date-arrow:hover {
+    transform: scale(1.2);
+}
+
+.date-arrow svg {
+    width: 24px;
+    height: 24px;
+}
+
+.agenda-container {
+    background: var(--coppel-white);
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 5px 15px rgba(0, 90, 163, 0.1);
+}
+
+.time-slots {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.time-slot {
+    display: flex;
+    gap: 15px;
+    transition: all 0.3s;
+}
+
+.time-slot:hover {
+    transform: translateX(5px);
+}
+
+.time-slot .time {
+    font-size: 0.9rem;
+    color: var(--coppel-blue);
+    width: 60px;
+    flex-shrink: 0;
+    padding-top: 3px;
+    font-weight: 600;
+}
+
+.agenda-event {
+    flex: 1;
+    background: rgba(0, 90, 163, 0.05);
+    border-radius: 8px;
+    padding: 10px 15px;
+    border-left: 3px solid var(--coppel-blue);
+    transition: all 0.3s;
+}
+
+.agenda-event:hover {
+    background: rgba(0, 90, 163, 0.1);
+}
+
+.agenda-event h4 {
+    font-size: 0.9rem;
+    margin-bottom: 3px;
+    color: var(--coppel-blue);
+}
+
+.agenda-event p {
+    font-size: 0.8rem;
+    color: var(--coppel-dark-gray);
+}
+
+.floating-btn {
+    position: fixed;
+    bottom: 90px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background-color: var(--coppel-blue);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 15px rgba(0, 90, 163, 0.3);
+    cursor: pointer;
+    z-index: 50;
+    transition: all 0.3s;
+}
+
+.floating-btn:hover {
+    transform: scale(1.1);
+    background-color: var(--coppel-dark-blue);
+}
+
+.floating-btn svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* Formulario de evento */
+#event-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#event-form textarea {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid var(--coppel-gray);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    resize: vertical;
+    min-height: 80px;
+    transition: all 0.3s;
+}
+
+#event-form textarea:focus {
+    outline: none;
+    border-color: var(--coppel-blue);
+    box-shadow: 0 0 0 3px rgba(0, 90, 163, 0.2);
+}
+
+#event-form select {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid var(--coppel-gray);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    background-color: var(--coppel-white);
+    transition: all 0.3s;
+}
+
+#event-form select:focus {
+    outline: none;
+    border-color: var(--coppel-blue);
+    box-shadow: 0 0 0 3px rgba(0, 90, 163, 0.2);
+}
+
+.voice-input {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: -10px;
+}
+
+.voice-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    transition: transform 0.3s;
+}
+
+.voice-btn:hover {
+    transform: scale(1.1);
+}
+
+.voice-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.voice-input span {
+    font-size: 0.8rem;
+    color: var(--coppel-dark-gray);
+}
+
+.notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    z-index: 1000;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.notification.success {
+    background-color: var(--coppel-green);
+}
+
+/* Loader */
+.loader {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Animaciones para el asistente de voz */
+@keyframes listening-pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(227, 6, 19, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(227, 6, 19, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(227, 6, 19, 0);
+    }
+}
+
+.listening-effect {
+    position: relative;
+}
+
+.listening-effect::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    background-color: rgba(227, 6, 19, 0.2);
+    border-radius: 50%;
+    animation: listening-pulse 1.5s infinite;
+    z-index: -1;
+}
+
+/* Animaciones */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes heartbeat {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.1); }
+    50% { transform: scale(1); }
+    75% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes jello {
+    0%, 100% { transform: scale3d(1, 1, 1); }
+    30% { transform: scale3d(1.25, 0.75, 1); }
+    40% { transform: scale3d(0.75, 1.25, 1); }
+    50% { transform: scale3d(1.15, 0.85, 1); }
+    65% { transform: scale3d(0.95, 1.05, 1); }
+    75% { transform: scale3d(1.05, 0.95, 1); }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-20px); }
+    60% { transform: translateY(-10px); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes jump {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Clases de animación */
+.pulse {
+    animation: pulse 1.5s infinite;
+}
+
+.heartbeat {
+    animation: heartbeat 1.5s infinite;
+}
+
+.jello-horizontal {
+    animation: jello-horizontal 0.9s both;
+}
+
+@keyframes jello-horizontal {
+    0% { transform: scale3d(1, 1, 1); }
+    30% { transform: scale3d(1.25, 0.75, 1); }
+    40% { transform: scale3d(0.75, 1.25, 1); }
+    50% { transform: scale3d(1.15, 0.85, 1); }
+    65% { transform: scale3d(0.95, 1.05, 1); }
+    75% { transform: scale3d(1.05, 0.95, 1); }
+    100% { transform: scale3d(1, 1, 1); }
+}
+
+.bounce-top {
+    animation: bounce-top 0.9s both;
+}
+
+@keyframes bounce-top {
+    0% { transform: translateY(-45px); animation-timing-function: ease-in; opacity: 1; }
+    24% { opacity: 1; }
+    40% { transform: translateY(-24px); animation-timing-function: ease-in; }
+    65% { transform: translateY(-12px); animation-timing-function: ease-in; }
+    82% { transform: translateY(-6px); animation-timing-function: ease-in; }
+    93% { transform: translateY(-4px); animation-timing-function: ease-in; }
+    25%, 55%, 75%, 87% { transform: translateY(0); animation-timing-function: ease-out; }
+    100% { transform: translateY(0); animation-timing-function: ease-out; opacity: 1; }
+}
+
+.slide-in-top {
+    animation: slide-in-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@keyframes slide-in-top {
+    0% { transform: translateY(-100px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+.slide-in-bottom {
+    animation: slide-in-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@keyframes slide-in-bottom {
+    0% { transform: translateY(100px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+.slide-in-left {
+    animation: slide-in-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@keyframes slide-in-left {
+    0% { transform: translateX(-100px); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+.slide-in-right {
+    animation: slide-in-right 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@keyframes slide-in-right {
+    0% { transform: translateX(100px); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+.swing-in-top-fwd {
+    animation: swing-in-top-fwd 0.5s cubic-bezier(0.175, 0.885, 0.320, 1.275) both;
+}
+
+@keyframes swing-in-top-fwd {
+    0% { transform: rotateX(-100deg); transform-origin: top; opacity: 0; }
+    100% { transform: rotateX(0deg); transform-origin: top; opacity: 1; }
+}
+
+.scale-in-center {
+    animation: scale-in-center 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@keyframes scale-in-center {
+    0% { transform: scale(0); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.flip-in-hor-top {
+    animation: flip-in-hor-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@keyframes flip-in-hor-top {
+    0% { transform: rotateX(-80deg); opacity: 0; }
+    100% { transform: rotateX(0); opacity: 1; }
+}
+
+.puff-in-center {
+    animation: puff-in-center 0.7s cubic-bezier(0.470, 0.000, 0.745, 0.715) both;
+}
+
+@keyframes puff-in-center {
+    0% { transform: scale(2); filter: blur(4px); opacity: 0; }
+    100% { transform: scale(1); filter: blur(0); opacity: 1; }
+}
+
+.tracking-in-expand {
+    animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+}
+
+@keyframes tracking-in-expand {
+    0% { letter-spacing: -0.5em; opacity: 0; }
+    40% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+
+.focus-in-expand {
+    animation: focus-in-expand 0.8s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@keyframes focus-in-expand {
+    0% { letter-spacing: -0.5em; filter: blur(12px); opacity: 0; }
+    100% { filter: blur(0); opacity: 1; }
+}
+
+.rotate-center {
+    animation: rotate-center 0.6s ease-in-out both;
+}
+
+@keyframes rotate-center {
+    0% { transform: rotate(0); }
+    100% { transform: rotate(360deg); }
+}
+
+.jump {
+    animation: jump 0.5s ease;
+}
+
+.slide-in-bck-center {
+    animation: slide-in-bck-center 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@keyframes slide-in-bck-center {
+    0% { transform: translateZ(600px); opacity: 0; }
+    100% { transform: translateZ(0); opacity: 1; }
+}
+
+.fade-in {
+    animation: fade-in 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+}
+
+@keyframes fade-in {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.fade-out {
+    animation: fade-out 0.5s ease-out both;
+}
+
+@keyframes fade-out {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* Estilos para el modal de login */
+.login-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 25px;
+    border-radius: 15px;
+    width: 85%;
+    max-width: 400px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #005AA3;
+}
+
+.modal-content h2 {
+    color: #005AA3;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border 0.3s;
+}
+
+.form-group input:focus {
+    border-color: #005AA3;
+    outline: none;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #005AA3;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-btn:hover {
+    background-color: #004080;
+}
+
+.forgot-password {
+    text-align: center;
+    margin-top: 15px;
+    color: #005AA3;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+/* Ajustes responsivos */
+@media (max-width: 400px) {
+    .iphone-container {
+        width: 100%;
+        height: 100vh;
+        border-radius: 0;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .iphone-screen {
+        border-radius: 0;
+    }
+    
+    .bottom-nav {
+        padding: 5px 0;
+    }
+    
+    .nav-btn {
+        font-size: 0.6rem;
+        padding: 5px 2px;
+    }
+    
+    .nav-btn svg {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .voice-notification {
+        font-size: 0.8rem;
+        padding: 8px 15px;
+        bottom: 70px;
+    }
+}
+
+@media (max-width: 350px) {
+    .nav-btn {
+        font-size: 0.55rem;
+    }
+    
+    .nav-btn svg {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+
+
+/* CSS para la sección del asistente de voz */
+#asistente-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    height: 100%;
+}
+
+.voice-assistant-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+}
+
+.voice-mic-container {
+    width: 120px;
+    height: 120px;
+    background-color: var(--coppel-light-gray);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.voice-mic-button {
+    width: 80px;
+    height: 80px;
+    background-color: var(--coppel-blue);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 3px 10px rgba(0, 90, 163, 0.3);
+    z-index: 2;
+}
+
+.voice-mic-button:hover {
+    transform: scale(1.1);
+    background-color: var(--coppel-dark-blue);
+}
+
+.voice-mic-button svg {
+    width: 40px;
+    height: 40px;
+    fill: var(--coppel-yellow);
+    transition: all 0.3s;
+}
+
+.voice-mic-button.listening {
+    animation: pulse 1.5s infinite;
+    background-color: var(--coppel-red);
+}
+
+.voice-mic-button.listening svg {
+    animation: bounce 1.5s infinite;
+}
+
+.pulse-rings {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.pulse-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid var(--coppel-blue);
+    opacity: 0;
+}
+
+.voice-mic-button.listening+.pulse-rings .pulse-ring:nth-child(1) {
+    animation: pulse-ring 2s linear infinite;
+}
+
+.voice-mic-button.listening+.pulse-rings .pulse-ring:nth-child(2) {
+    animation: pulse-ring 2s linear 0.5s infinite;
+}
+
+.voice-mic-button.listening+.pulse-rings .pulse-ring:nth-child(3) {
+    animation: pulse-ring 2s linear 1s infinite;
+}
+
+@keyframes pulse-ring {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+.voice-result-container {
+    width: 100%;
+    max-width: 300px;
+    min-height: 60px;
+    background-color: white;
+    border-radius: 15px;
+    padding: 15px;
+    margin-top: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+    text-align: center;
+    border: 2px solid var(--coppel-light-gray);
+    position: relative;
+}
+
+.voice-result-container.active {
+    border-color: var(--coppel-blue);
+    animation: pop-in 0.3s forwards;
+}
+
+.voice-result-text {
+    font-size: 1rem;
+    color: var(--coppel-text);
+    margin-bottom: 10px;
+}
+
+.voice-instructions {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 0.9rem;
+    color: var(--coppel-dark-gray);
+    max-width: 300px;
+}
+
+.voice-commands {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 300px;
+}
+
+.voice-command-item {
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s;
+    border-left: 3px solid var(--coppel-yellow);
+}
+
+.voice-command-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.voice-command-icon {
+    width: 30px;
+    height: 30px;
+    background-color: rgba(0, 90, 163, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+}
+
+.voice-command-icon svg {
+    width: 18px;
+    height: 18px;
+    fill: var(--coppel-blue);
+}
+
+.voice-command-text {
+    font-size: 0.9rem;
+    color: var(--coppel-text);
+}
+
+@keyframes pop-in {
+    0% {
+        transform: scale(0.9);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Para pantallas pequeñas */
+@media (max-width: 380px) {
+    .voice-mic-container {
+        width: 100px;
+        height: 100px;
+    }
+
+    .voice-mic-button {
+        width: 70px;
+        height: 70px;
+    }
+
+    .voice-mic-button svg {
+        width: 35px;
+        height: 35px;
+    }
+
+    .voice-result-container {
+        max-width: 250px;
+    }
+
+    .voice-result-text {
+        font-size: 0.9rem;
+    }
+
+    .voice-instructions,
+    .voice-commands {
+        max-width: 250px;
+    }
+}
+
+/* ... (Estilos existentes) ... */
+
+/* --- ESTILOS ESPECÍFICOS PARA ADMINISTRADOR --- */
+
+/* Dashboard General */
+.summary-card .card-body {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+.summary-card .info-row {
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: var(--coppel-light-gray);
+    padding: 10px;
+    border-radius: 8px;
+    border-left: 4px solid var(--coppel-blue);
+}
+
+.summary-card .info-label {
+    font-size: 0.8rem;
+    margin-bottom: 5px;
+    color: var(--coppel-dark-gray);
+}
+
+.summary-card .info-value {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--coppel-blue);
+    text-align: left;
+    /* Ajustar alineación */
+}
+
+#recent-activity ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+#recent-activity li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--coppel-light-gray);
+    font-size: 0.9rem;
+    color: var(--coppel-text);
+}
+
+#recent-activity li:last-child {
+    border-bottom: none;
+}
+
+/* Lista de Colaboradores */
+.colaboradores-list {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.collaborator-card {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background: var(--coppel-white);
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    /* Para la flecha */
+}
+
+.collaborator-card:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 5px 15px rgba(0, 90, 163, 0.15);
+}
+
+.collaborator-avatar {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(0, 90, 163, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: var(--coppel-blue);
+    margin-right: 15px;
+    flex-shrink: 0;
+    font-size: 1.1rem;
+    transition: all 0.3s;
+}
+
+.collaborator-card:hover .collaborator-avatar {
+    background-color: rgba(0, 90, 163, 0.2);
+    transform: rotate(10deg);
+}
+
+.collaborator-info {
+    flex-grow: 1;
+    min-width: 0;
+    /* Para que el texto se ajuste */
+}
+
+.collaborator-info h3 {
+    font-size: 1rem;
+    margin-bottom: 4px;
+    color: var(--coppel-blue);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.collaborator-info p {
+    font-size: 0.85rem;
+    color: var(--coppel-dark-gray);
+    margin-bottom: 3px;
+    line-height: 1.3;
+}
+
+.incentive-progress {
+    font-weight: 500;
+    font-size: 0.8rem;
+}
+
+.incentive-progress.active {
+    color: var(--coppel-green);
+}
+
+.incentive-progress.pending {
+    color: var(--coppel-orange);
+}
+
+.incentive-progress.inactive {
+    color: var(--coppel-dark-gray);
+}
+
+.collaborator-card .arrow-icon {
+    /* Reutiliza estilo de empleado */
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    transition: transform 0.3s;
+    flex-shrink: 0;
+    /* Evita que se encoja */
+}
+
+.collaborator-card:hover .arrow-icon {
+    transform: translateX(5px);
+}
+
+
+/* Lista de Progreso */
+.progreso-list {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    /* Un poco más de espacio */
+}
+
+.progreso-list .course-card {
+    /* Reutilizar estilo base */
+    transition: all 0.3s ease;
+}
+
+.progreso-list .course-card:hover {
+    box-shadow: 0 8px 20px rgba(0, 90, 163, 0.18);
+    border-left: 4px solid var(--coppel-yellow);
+    padding-left: 12px;
+    /* Ajustar padding en hover */
+}
+
+.progreso-list .course-header h3 {
+    font-size: 1rem;
+    /* Un poco más grande */
+}
+
+.progreso-list .course-header .progress-badge {
+    background-color: rgba(0, 90, 163, 0.1);
+    color: var(--coppel-blue);
+    font-weight: 500;
+}
+
+.progreso-list .course-card p {
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+    color: var(--coppel-text);
+    /* Texto principal más oscuro */
+}
+
+.progreso-list .course-card small {
+    font-size: 0.75rem;
+    color: var(--coppel-dark-gray);
+    display: block;
+    /* Asegurar que esté en su propia línea */
+    margin-top: 8px;
+}
+
+/* Sección Incentivos */
+#incentive-rules ul,
+#earned-incentives-list ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+#incentive-rules li,
+#earned-incentives-list li {
+    padding: 10px 5px;
+    border-bottom: 1px solid var(--coppel-light-gray);
+    font-size: 0.9rem;
+}
+
+#incentive-rules li:last-child,
+#earned-incentives-list li:last-child {
+    border-bottom: none;
+}
+
+#incentive-rules strong,
+#earned-incentives-list strong {
+    color: var(--coppel-blue);
+}
+
+#incentive-rules p em {
+    display: block;
+    margin-top: 10px;
+    font-size: 0.8rem;
+    color: var(--coppel-dark-gray);
+}
+
+/* Modal detalles colaborador (reutiliza estilos base de modal) */
+#colaborador-modal .detail-section {
+    margin-bottom: 15px;
+}
+
+#colaborador-modal .detail-section h4 {
+    font-size: 1rem;
+    /* Ligeramente más grande */
+    color: var(--coppel-blue);
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--coppel-light-gray);
+    font-weight: 600;
+}
+
+#colaborador-modal .detail-section ul {
+    list-style: disc;
+    padding-left: 20px;
+    font-size: 0.9rem;
+    color: var(--coppel-text);
+}
+
+#colaborador-modal .detail-section li {
+    margin-bottom: 5px;
+}
+
+#colaborador-modal .info-row .info-value {
+    max-width: 70%;
+    /* Evitar que valores largos empujen las etiquetas */
+    word-break: break-word;
+    /* Romper palabras largas si es necesario */
+}
+
+/* --- FIN ESTILOS ADMINISTRADOR --- */
+
+/* Ajustes generales para modales */
+.modal {
+    display: none;
+    /* Oculto por defecto */
+    position: fixed;
+    z-index: 1000;
+    /* Asegurar que esté por encima */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    /* Permitir scroll si el contenido es largo */
+    background-color: rgba(0, 0, 0, 0.6);
+    /* Fondo semi-transparente */
+    /* Añadido para centrar con Flexbox */
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    /* Espacio por si el modal es muy grande */
+}
+
+.modal-content {
+    background-color: var(--coppel-white);
+    margin: auto;
+    /* Centrado automático */
+    padding: 25px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 450px;
+    /* Ancho máximo consistente */
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+    position: relative;
+    /* Para el botón de cerrar */
+    animation: scale-in-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    /* Animación al abrir */
+}
+
+.modal .close,
+.modal .close-modal {
+    /* Unificar estilos de cierre */
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: var(--coppel-dark-gray);
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s;
+    line-height: 1;
+    /* Ajustar línea */
+}
+
+.modal .close:hover,
+.modal .close:focus,
+.modal .close-modal:hover,
+.modal .close-modal:focus {
+    color: var(--coppel-red);
+    text-decoration: none;
+}
+
+.modal h2 {
+    color: var(--coppel-blue);
+    margin-bottom: 25px;
+    /* Más espacio */
+    text-align: center;
+    font-size: 1.3rem;
+    /* Ligeramente más grande */
+    font-weight: 600;
+}
+
+.modal .form-group {
+    /* Estilo para forms dentro de modal */
+    margin-bottom: 20px;
+    position: relative;
+    /* Para el botón de mostrar contraseña */
+}
+
+.modal .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--coppel-dark-gray);
+    /* Color de etiqueta más suave */
+    font-size: 0.9rem;
+}
+
+.modal .form-group input[type="email"],
+.modal .form-group input[type="text"],
+.modal .form-group input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--coppel-gray);
+    /* Borde más suave */
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    background-color: var(--coppel-white);
+}
+
+/* Ajuste para que el botón no solape el texto */
+.modal .form-group input[type="password"] {
+    padding-right: 45px;
+}
+
+.modal .form-group input:focus {
+    border-color: var(--coppel-blue);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 90, 163, 0.2);
+    /* Sombra al enfocar */
+}
+
+
+.modal .login-btn {
+    /* Estilo botón principal modal */
+    width: 100%;
+    padding: 12px;
+    background-color: var(--coppel-blue);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    /* Para centrar el loader */
+    justify-content: center;
+    /* Para centrar el loader */
+    align-items: center;
+    /* Para centrar el loader */
+    min-height: 45px;
+    /* Altura mínima para acomodar loader */
+}
+
+.modal .login-btn:hover {
+    background-color: var(--coppel-dark-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 90, 163, 0.2);
+}
+
+.modal .login-btn:disabled {
+    background-color: var(--coppel-gray);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.modal .login-btn .loader {
+    /* Loader dentro del botón */
+    width: 20px;
+    height: 20px;
+    border-width: 3px;
+    /* Asegurar grosor */
+}
+
+
+.modal .forgot-password {
+    text-align: center;
+    margin-top: 20px;
+    /* Más espacio */
+    color: var(--coppel-blue);
+    font-size: 0.85rem;
+    cursor: pointer;
+    text-decoration: none;
+    /* Quitar subrayado por defecto */
+    transition: color 0.3s;
+}
+
+.modal .forgot-password:hover {
+    color: var(--coppel-dark-blue);
+    text-decoration: underline;
+    /* Subrayar en hover */
+}
+
+/* Posición del botón de mostrar/ocultar contraseña DENTRO del input group */
+.modal .form-group .show-password {
+    position: absolute;
+    right: 10px;
+    top: 55%;
+    /* Ajustar verticalmente con la etiqueta */
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+    display: flex;
+    /* Centrar SVG */
+    align-items: center;
+    /* Centrar SVG */
+    justify-content: center;
+    /* Centrar SVG */
+}
+
+.modal .form-group .show-password:hover {
+    background-color: rgba(0, 90, 163, 0.1);
+}
+
+.modal .form-group .show-password svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--coppel-dark-gray);
+    /* Color del icono */
+}
+
+
+/* ... (Resto de estilos y media queries existentes) ... */
+
+/* Asegurar que el loader blanco sea visible en el botón azul */
+.login-btn .loader {
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+}
+
+/* Modificar estilo de modal de empleado (microempresario-modal) para consistencia */
+#microempresario-modal .modal-content {
+    max-width: 450px;
+    /* Ancho consistente */
+    padding: 20px;
+    /* Padding consistente */
+}
+
+#microempresario-modal .modal-header {
+    padding-bottom: 15px;
+    /* Ajustar padding */
+    margin-bottom: 15px;
+    /* Ajustar margen */
+}
+
+#microempresario-modal .close-modal {
+    /* Usar mismo estilo de cierre */
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: var(--coppel-dark-gray);
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s;
+    line-height: 1;
+}
+
+#microempresario-modal .close-modal:hover {
+    color: var(--coppel-red);
+}
+
+/* Modificar estilo de modal de evento (agenda) para consistencia */
+#event-modal .modal-content {
+    max-width: 450px;
+    padding: 25px;
+    /* Más padding como los de login */
+}
+
+#event-modal .modal-header {
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    /* Más espacio */
+}
+
+#event-modal .close-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: var(--coppel-dark-gray);
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s;
+    line-height: 1;
+}
+
+#event-modal .close-modal:hover {
+    color: var(--coppel-red);
+}
+
+#event-modal .modal-body {
+    max-height: 65vh;
+    /* Ajustar altura máxima */
+}
+
+#event-modal button[type="submit"] {
+    /* Aplicar estilo de botón principal */
+    width: 100%;
+    padding: 12px;
+    background-color: var(--coppel-blue);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 45px;
+    margin-top: 10px;
+    /* Espacio antes del botón */
+}
+
+#event-modal button[type="submit"]:hover {
+    background-color: var(--coppel-dark-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 90, 163, 0.2);
+}
+
+#event-modal button[type="submit"]:disabled {
+    background-color: var(--coppel-gray);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* ... (Estilos existentes) ... */
+
+/* --- VARIABLES GLOBALES DE ESTILO --- */
+
+
+
+/* --- ESTILOS BASE PARA TARJETAS (Aplicable a todas las secciones) --- */
+.card {
+    background-color: var(--card-bg);
+    border-radius: var(--card-radius);
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--coppel-medium-gray);
+    margin-bottom: 20px;
+    /* Espacio entre tarjetas */
+    overflow: hidden;
+    /* Para que el header respete el border-radius */
+}
+
+.card-header {
+    background-color: rgba(0, 90, 163, 0.05);
+    /* Fondo azul muy sutil */
+    padding: 12px 18px;
+    /* Un poco más de padding */
+    border-bottom: 1px solid var(--coppel-medium-gray);
+    font-weight: 600;
+    /* Poppins semibold */
+    color: var(--coppel-blue);
+}
+
+.card-header h3 {
+    margin: 0;
+    font-size: 1rem;
+    /* Tamaño consistente para títulos de tarjeta */
+    line-height: 1.4;
+}
+
+.card-body {
+    padding: 18px;
+    /* Padding consistente para el cuerpo */
+}
+
+/* --- ESTILOS ESPECÍFICOS PARA DASHBOARD VISUAL --- */
+
+#query-results-container {
+    padding: 10px 5px;
+    /* Ajustar padding si es necesario */
+}
+
+/* 1. Tarjeta de Resumen Destacado (Top Performer) */
+.summary-highlight.card {
+    border-top: 4px solid var(--coppel-yellow);
+    /* Borde superior amarillo distintivo */
+}
+
+.summary-highlight .card-body {
+    padding: 15px;
+    /* Mantener padding específico si se prefiere */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Centrar si solo hay un elemento */
+    flex-wrap: wrap;
+    gap: 15px;
+    /* Espacio entre avatar e info */
+}
+
+/* Estilo específico para la tarjeta del mejor colaborador DENTRO del summary */
+.top-performer-card {
+    /* Ya no necesita ser una tarjeta completa, es el contenido */
+    background-color: transparent;
+    /* Quitar fondo amarillo si está dentro de una card blanca */
+    /* Si quieres mantener el fondo amarillo DENTRO de la card blanca: */
+    /* background-color: var(--coppel-light-yellow); */
+    /* padding: 15px; */
+    /* El padding lo da el .card-body padre */
+    /* border: 1px solid var(--coppel-yellow); */
+    /* Puede ser mucho borde */
+    /* box-shadow: none; */
+    /* Sin sombra interna */
+    border-radius: 8px;
+    /* Redondeo ligero si tiene fondo */
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-grow: 1;
+    /* Ocupar espacio */
+    min-width: 280px;
+    /* Ancho mínimo */
+}
+
+.top-performer-card .collaborator-avatar {
+    width: 55px;
+    /* Mantener tu tamaño preferido */
+    height: 55px;
+    border-radius: 50%;
+    /* Círculo perfecto */
+    background-color: var(--coppel-yellow);
+    color: var(--coppel-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    /* Poppins bold */
+    font-size: 1.3rem;
+    /* Mantener tu tamaño preferido */
+    flex-shrink: 0;
+}
+
+.top-performer-card .collaborator-info {
+    text-align: left;
+    /* Alinear texto a la izquierda */
+}
+
+.top-performer-card .collaborator-info h3 {
+    margin: 0 0 4px 0;
+    font-size: 1.1rem;
+    /* Mantener tamaño */
+    color: var(--coppel-blue);
+    /* Usar azul principal */
+    font-weight: 600;
+    /* Semibold */
+}
+
+.top-performer-card .collaborator-info p {
+    margin: 0;
+    font-size: 0.95rem;
+    /* Ligeramente más pequeño que el título */
+    color: var(--text-color);
+}
+
+.top-performer-card .collaborator-info p strong {
+    font-size: 1.2rem;
+    /* Tamaño destacado para el número */
+    color: var(--coppel-blue);
+    font-weight: 700;
+    /* Bold */
+    margin-left: 5px;
+    /* Pequeño espacio antes del número */
+}
+
+/* 2. Contenedor del Gráfico */
+.chart-container .card-body {
+    padding: 15px;
+    /* Padding específico si es necesario */
+    min-height: 280px;
+    /* Incrementar altura mínima para mejor visualización */
+    position: relative;
+    /* Necesario para Chart.js y placeholder */
+}
+
+/* Asegurar que el canvas se ajuste (ya lo tenías y está bien) */
+.chart-container canvas,
+#colaborador-negocios-chart {
+    max-width: 100%;
+    max-height: 100%;
+    /* Permitir que Chart.js controle la altura */
+    height: auto;
+    /* Asegurar que no fuerce una altura incorrecta */
+}
+
+/* Placeholder si no hay gráfico */
+#chart-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--coppel-dark-gray);
+    text-align: center;
+    font-size: 0.9rem;
+    display: none;
+    /* Gestionado por JS o :empty si es posible */
+}
+
+/* Opcional: Mostrar si el contenedor está vacío (puede no funcionar bien con canvas) */
+/* .chart-container .card-body:empty + #chart-placeholder { display: block; } */
+
+
+/* 3. Tarjeta de Análisis Textual */
+
+
+.textual-analysis .card-body p {
+    font-size: 0.95rem;
+    color: var(--coppel-dark-gray);
+    /* Usar gris oscuro para texto secundario */
+    line-height: 1.6;
+    /* Mejorar legibilidad */
+    text-align: center;
+    margin: 0;
+    /* Quitar margen por defecto del párrafo */
+}
+
+/* 4. Input de Voz / Preguntar al Asistente */
+.voice-dashboard-input {
+    /* Hacerlo parecer una tarjeta más */
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: var(--card-radius);
+    margin-top: 25px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--coppel-medium-gray);
+    /* Borde consistente */
+    text-align: center;
+}
+
+.voice-dashboard-input p {
+    color: var(--coppel-dark-gray);
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+}
+
+/* Botón Primario (Preguntar al Asistente) */
+.voice-dashboard-input .btn-primary {
+    background: linear-gradient(to right, var(--coppel-blue), var(--coppel-dark-blue));
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    /* Buen tamaño */
+    border-radius: 25px;
+    /* Píldora */
+    font-weight: 600;
+    /* Semibold */
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 2px 5px rgba(0, 90, 163, 0.4);
+    text-decoration: none;
+    /* Por si acaso se usa como link */
+}
+
+.voice-dashboard-input .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 90, 163, 0.5);
+}
+
+.voice-dashboard-input .btn-primary svg {
+    fill: white;
+    /* Icono blanco */
+    width: 20px;
+    /* Ajustar tamaño del icono si es necesario */
+    height: 20px;
+}
+
+/* --- FIN ESTILOS DASHBOARD VISUAL --- */
+
+/* --- OTROS ESTILOS DE ADMINISTRADOR (Colaboradores, Progreso, Incentivos) --- */
+
+/* Aplica los estilos .card, .card-header, .card-body a las otras secciones */
+
+/* Ejemplo para lista de colaboradores */
+.colaboradores-list .collaborator-card {
+    /* Hereda estilos de .card si le pones la clase, o defínelos aquí */
+    background-color: var(--card-bg);
+    border-radius: var(--card-radius);
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--coppel-medium-gray);
+    margin-bottom: 15px;
+    /* Menos espacio en listas */
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+}
+
+.colaboradores-list .collaborator-card:hover {
+    background-color: var(--coppel-light-gray);
+    /* Efecto hover sutil */
+}
+
+.colaboradores-list .collaborator-avatar {
+    /* Reutiliza el estilo del avatar */
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: var(--coppel-yellow);
+    color: var(--coppel-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.colaboradores-list .collaborator-info {
+    flex-grow: 1;
+}
+
+.colaboradores-list .collaborator-info h3 {
+    margin: 0 0 3px 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--coppel-blue);
+}
+
+.colaboradores-list .collaborator-info p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--coppel-dark-gray);
+}
+
+.colaboradores-list .collaborator-info .incentive-progress {
+    font-size: 0.8rem;
+    margin-top: 4px;
+    font-weight: 500;
+}
+
+/* Clases para estado de incentivo (ejemplo) */
+.incentive-progress.active {
+    color: #28a745;
+}
+
+/* Verde */
+.incentive-progress.pending {
+    color: #ffc107;
+}
+
+/* Amarillo/Naranja */
+.incentive-progress.inactive {
+    color: var(--coppel-dark-gray);
+}
+
+/* Gris */
+
+
+.colaboradores-list .arrow-icon {
+    fill: var(--coppel-medium-gray);
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+/* Estilos para la barra de búsqueda (si no los tienes definidos) */
+.search-bar {
+    display: flex;
+    margin-bottom: 20px;
+    background-color: var(--card-bg);
+    border-radius: 25px;
+    /* Barra redondeada */
+    padding: 5px 5px 5px 15px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--coppel-medium-gray);
+}
+
+.search-bar input[type="text"] {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 0.95rem;
+    color: var(--text-color);
+}
+
+.search-bar .search-btn {
+    border: none;
+    background-color: var(--coppel-yellow);
+    color: var(--coppel-blue);
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.search-bar .search-btn:hover {
+    background-color: #f0c400;
+    /* Amarillo un poco más oscuro */
+}
+
+.search-bar .search-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--coppel-blue);
+}
+
+/* Añade estilos similares para .progreso-list y .incentivos-section si es necesario */
+
+/* --- ESTILOS PARA EL NUEVO DASHBOARD GRID --- */
+
+.dashboard-grid {
+    display: flex;
+    flex-wrap: wrap;
+    /* Permite que los elementos pasen a la siguiente línea */
+    gap: 15px;
+    /* Espacio entre tarjetas */
+    padding: 10px 0;
+    /* Padding vertical */
+}
+
+/* Estilo base para todas las tarjetas dentro del grid */
+.dashboard-grid .card {
+    flex-grow: 1;
+    /* Permite que crezcan para llenar espacio */
+    /* Controlar el tamaño base y mínimo */
+    min-width: calc(50% - 10px);
+    /* Que al menos 2 quepan por fila, ajusta según necesites */
+    /* background-color: var(--card-bg); */
+    /* Hereda de .card */
+    /* border-radius: var(--card-radius); */
+    /* Hereda */
+    /* box-shadow: var(--card-shadow); */
+    /* Hereda */
+    /* border: 1px solid var(--coppel-medium-gray); */
+    /* Hereda */
+    margin-bottom: 0;
+    /* El gap ya da espacio */
+}
+
+/* Estilo para KPIs */
+.kpi-card .card-body {
+    display: flex;
+    flex-direction: column;
+    /* Apilar verticalmente */
+    align-items: flex-start;
+    /* Alinear a la izquierda */
+    justify-content: center;
+    padding: 15px;
+    position: relative;
+    /* Para posicionar el icono */
+    min-height: 100px;
+    /* Altura mínima para KPIs */
+}
+
+.kpi-label {
+    font-size: 0.8rem;
+    color: var(--coppel-dark-gray);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.kpi-value {
+    font-size: 1.8rem;
+    /* Tamaño grande para el número */
+    font-weight: 700;
+    /* Bold */
+    color: var(--coppel-blue);
+    line-height: 1.2;
+}
+
+.kpi-icon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.8rem;
+    /* Tamaño del icono */
+    color: var(--coppel-yellow);
+    /* Icono en amarillo */
+    opacity: 0.8;
+}
+
+.kpi-icon svg {
+    width: 32px;
+    height: 32px;
+    fill: var(--coppel-yellow);
+}
+
+
+/* Estilo para Tarjetas de Gráficos */
+.chart-card {
+    /* Puedes ajustar el tamaño si quieres que unos sean más grandes */
+    min-height: 300px;
+    /* Altura mínima para gráficos */
+}
+
+.chart-card.large {
+    /* Clase opcional para hacer un gráfico más grande */
+    min-width: calc(100% - 10px);
+    /* Ocupar toda la fila */
+    min-height: 350px;
+}
+
+
+.chart-card .card-body {
+    position: relative;
+    /* Para placeholder */
+    height: calc(100% - 45px);
+    /* Ajustar altura restando el header (aprox) */
+    min-height: 250px;
+    /* Asegurar altura mínima del cuerpo */
+    padding: 10px;
+    /* Menos padding si el gráfico necesita espacio */
+    display: flex;
+    /* Centrar placeholder */
+    align-items: center;
+    justify-content: center;
+}
+
+.chart-card canvas {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.chart-placeholder {
+    color: var(--coppel-dark-gray);
+    font-size: 0.9rem;
+    text-align: center;
+    display: block;
+    /* Mostrar por defecto, JS lo oculta */
+}
+
+/* Ajuste para el input de voz si se mantiene */
+.voice-dashboard-input {
+    flex-basis: 100%;
+    /* Que ocupe toda la fila */
+    margin-top: 10px;
+    /* Menos margen superior */
+}
+
+/* --- FIN ESTILOS DASHBOARD GRID --- */

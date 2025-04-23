@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- ¡AÑADIR ESTO! -->
+
+    <title>Coppel App - Administrador</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#005AA3" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="iphone-container">
+      <div class="iphone-notch"></div>
+      <div class="iphone-screen">
+        <header class="app-header">
+          <img src="icons/Coppel logo.png" alt="Coppel Logo" class="logo" />
+          <div class="user-info">
+            <span>Admin: <span id="admin-id"></span></span>
+            <button class="logout-btn" id="logout-btn">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="#FFD700"
+              >
+                <path
+                  d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"
+                />
+              </svg>
+            </button>
+          </div>
+        </header>
+
+        <nav class="bottom-nav">
+          <button class="nav-btn active" data-section="dashboard">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="#FFD700"
+            >
+              <path d="M13 3H6v18h12V9h-5V3zm-1 5v11H8V8h4zm7-1l-5-5v5h5z" />
+            </svg>
+            <span>Dashboard</span>
+          </button>
+          <button class="nav-btn" data-section="colaboradores">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="#FFD700"
+            >
+              <path
+                d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"
+              />
+            </svg>
+            <span>Colaboradores</span>
+          </button>
+          <button class="nav-btn" data-section="progreso">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="#FFD700"
+            >
+              <path d="M4 10h12v2H4zm0-4h12v2H4zm0 8h8v2H4zm10 0v6l5-3z" />
+            </svg>
+            <span>Progreso</span>
+          </button>
+          <button class="nav-btn" data-section="incentivos">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="#FFD700"
+            >
+              <path
+                d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm-9 14H5v-2h6v2zm0-4H5v-2h6v2zm0-4H5V8h6v2zm8 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V8h2v2z"
+              />
+            </svg>
+            <span>Incentivos</span>
+          </button>
+        </nav>
+
+        <main class="dashboard-container">
+          <!-- Sección Dashboard General -->
+          <!-- Sección Dashboard (Ahora orientada a resultados de consulta) -->
+          <section id="dashboard-section" class="dashboard-section active">
+            <!-- Contenedor para los resultados de la consulta simulada -->
+            <div id="query-results-container" class="fade-in">
+              <h2 class="slide-in-left">
+                Resultado: Colaborador con Más Negocios
+              </h2>
+
+              <!-- Área de Resumen Destacado -->
+              <div class="summary-highlight card swing-in-top-fwd">
+                <div class="card-header"><h3>Hallazgo Principal</h3></div>
+                <div class="card-body" id="top-performer-summary">
+                  <!-- Info del mejor colaborador se cargará aquí -->
+                  <p>Calculando...</p>
+                </div>
+              </div>
+
+              <!-- Contenedor para el Gráfico -->
+              <div
+                class="chart-container card swing-in-top-fwd"
+                style="animation-delay: 0.1s"
+              >
+                <div class="card-header">
+                  <h3>Comparativa: Negocios por Colaborador</h3>
+                </div>
+                <div class="card-body">
+                  <canvas id="colaborador-negocios-chart"></canvas>
+                  <p
+                    id="chart-placeholder"
+                    style="text-align: center; color: var(--coppel-dark-gray)"
+                  >
+                    Generando gráfico...
+                  </p>
+                </div>
+              </div>
+
+              <!-- Análisis Textual (Opcional) -->
+              <div
+                class="textual-analysis card swing-in-top-fwd"
+                style="animation-delay: 0.2s"
+              >
+                <div class="card-header"><h3>Análisis Rápido</h3></div>
+                <div class="card-body">
+                  <p id="analysis-text">Analizando datos...</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Placeholder para futura interfaz de voz (opcional, solo visual) -->
+
+            <div
+              class="voice-dashboard-input"
+              style="margin-top: 20px; text-align: center"
+            >
+              <p style="color: var(--coppel-dark-gray); margin-bottom: 10px">
+                Haz una pregunta sobre los datos:
+              </p>
+              <button
+                class="btn-primary"
+                style="width: auto; padding: 10px 20px"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="#fff"
+                  width="24"
+                  height="24"
+                  style="margin-right: 8px"
+                >
+                  <path
+                    d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 14.2 14.47 16 12 16s-4.52-1.8-4.93-4.15c-.08-.49-.49-.85-.98-.85-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V20c0 .55.45 1 1 1s1-.45 1-1v-2.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z"
+                  />
+                </svg>
+                Preguntar al Asistente
+              </button>
+            </div>
+          </section>
+
+          <!-- Sección Colaboradores -->
+          <section id="colaboradores-section" class="dashboard-section">
+            <h2 class="slide-in-left">Gestión de Colaboradores</h2>
+            <div class="search-bar focus-in-expand">
+              <input
+                type="text"
+                id="search-colaborador"
+                placeholder="Buscar por matrícula o nombre..."
+              />
+              <button class="search-btn" id="search-colaborador-btn">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="#005AA3"
+                >
+                  <path
+                    d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div class="colaboradores-list" id="colaboradores-list">
+              <!-- Lista de colaboradores se cargará aquí -->
+              <p>Cargando colaboradores...</p>
+            </div>
+            <!-- Modal de detalles Colaborador -->
+            <div id="colaborador-modal" class="modal">
+              <div class="modal-content slide-in-bck-center">
+                <div class="modal-header">
+                  <h2 id="colaborador-modal-title">Detalles del Colaborador</h2>
+                  <span class="close-modal">×</span>
+                </div>
+                <div class="modal-body" id="colaborador-modal-body">
+                  <!-- Contenido dinámico -->
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Sección Progreso -->
+          <section id="progreso-section" class="dashboard-section">
+            <h2 class="slide-in-left">Progreso de Microempresarios</h2>
+            <div class="search-bar focus-in-expand">
+              <input
+                type="text"
+                id="search-progreso"
+                placeholder="Buscar por negocio, propietario o colaborador..."
+              />
+              <button class="search-btn" id="search-progreso-btn">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="#005AA3"
+                >
+                  <path
+                    d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div class="progreso-list" id="progreso-list">
+              <!-- Lista de progreso se cargará aquí -->
+              <p>Cargando progreso...</p>
+            </div>
+          </section>
+
+          <!-- Sección Incentivos -->
+          <section id="incentivos-section" class="dashboard-section">
+            <h2 class="slide-in-left">Incentivos para Colaboradores</h2>
+            <div class="card swing-in-top-fwd">
+              <div class="card-header"><h3>Reglas de Incentivos</h3></div>
+              <div class="card-body" id="incentive-rules">
+                <!-- Reglas se cargarán aquí -->
+                <p>Cargando reglas...</p>
+              </div>
+            </div>
+            <div class="card swing-in-top-fwd" style="animation-delay: 0.1s">
+              <div class="card-header">
+                <h3>Colaboradores con Incentivos Ganados</h3>
+              </div>
+              <div class="card-body" id="earned-incentives-list">
+                <!-- Lista se cargará aquí -->
+                <p>Cargando ganadores...</p>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+      <div class="iphone-home-button"></div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+      // --- SIMULACIÓN DE DATOS (Reemplazar con llamadas a API/BD) ---
+      const simulatedData = {
+        administrador: {
+          id_admin: 1,
+          nombre: "Admin Principal",
+          matricula_admin: "A00001",
+        },
+        colaboradores: [
+          {
+            id_colaborador: 101,
+            id_admin: 1,
+            matricula_col: "C12345",
+            num_empleado: "E1001",
+            meta_negocios: 10,
+            nombre: "Carlos Ramírez",
+          },
+          {
+            id_colaborador: 102,
+            id_admin: 1,
+            matricula_col: "C67890",
+            num_empleado: "E1002",
+            meta_negocios: 10,
+            nombre: "Sofía Hernández",
+          },
+          {
+            id_colaborador: 103,
+            id_admin: 1,
+            matricula_col: "C11223",
+            num_empleado: "E1003",
+            meta_negocios: 10,
+            nombre: "Luis García",
+          },
+        ],
+        micronegocios: [
+          {
+            id_negocio: 1,
+            id_colaborador: 101,
+            nombre: "Abarrotes Don Pepe",
+            propietario: "José Pérez",
+            contacto: "5511223344",
+            descripcion_negocio: "Tienda de abarrotes",
+          },
+          {
+            id_negocio: 2,
+            id_colaborador: 101,
+            nombre: "Tacos El Güero",
+            propietario: "Ricardo Solís",
+            contacto: "5522334455",
+            descripcion_negocio: "Puesto de tacos",
+          },
+          {
+            id_negocio: 3,
+            id_colaborador: 102,
+            nombre: "Estética Bella",
+            propietario: "Laura Méndez",
+            contacto: "5533445566",
+            descripcion_negocio: "Salón de belleza",
+          },
+          {
+            id_negocio: 4,
+            id_colaborador: 101,
+            nombre: "Papelería El Lápiz",
+            propietario: "Ana Torres",
+            contacto: "5544556677",
+            descripcion_negocio: "Venta de artículos escolares",
+          },
+          // ... agregar más negocios para simular alcanzar metas
+          {
+            id_negocio: 5,
+            id_colaborador: 101,
+            nombre: "Frutería La Huerta",
+            propietario: "Mario Bros",
+            contacto: "555",
+            descripcion_negocio: "Frutas y verduras",
+          },
+          {
+            id_negocio: 6,
+            id_colaborador: 101,
+            nombre: "Carnicería San Juan",
+            propietario: "Juan Camaney",
+            contacto: "556",
+            descripcion_negocio: "Venta de carne",
+          },
+          {
+            id_negocio: 7,
+            id_colaborador: 101,
+            nombre: "Ferretería El Clavo",
+            propietario: "Pedro Picapiedra",
+            contacto: "557",
+            descripcion_negocio: "Herramientas",
+          },
+          {
+            id_negocio: 8,
+            id_colaborador: 101,
+            nombre: "Lavandería Burbujas",
+            propietario: "Pablo Mármol",
+            contacto: "558",
+            descripcion_negocio: "Servicio de lavado",
+          },
+          {
+            id_negocio: 9,
+            id_colaborador: 101,
+            nombre: "Zapatería El Paso",
+            propietario: "Usain Bolt",
+            contacto: "559",
+            descripcion_negocio: "Venta de calzado",
+          },
+          {
+            id_negocio: 10,
+            id_colaborador: 101,
+            nombre: "Panadería El Bolillo",
+            propietario: "Homero Simpson",
+            contacto: "550",
+            descripcion_negocio: "Pan dulce y salado",
+          },
+          {
+            id_negocio: 11,
+            id_colaborador: 101,
+            nombre: "Refaccionaria Speed",
+            propietario: "Rayo McQueen",
+            contacto: "551",
+            descripcion_negocio: "Partes automotrices",
+          }, // Negocio 11 para Carlos
+        ],
+        contenido: [
+          {
+            id_contenido: 1,
+            tipo: "leccion",
+            titulo: "Finanzas Básicas 1",
+            valor_llaves: 7,
+          },
+          {
+            id_contenido: 2,
+            tipo: "leccion",
+            titulo: "Marketing Digital Intro",
+            valor_llaves: 7,
+          },
+          {
+            id_contenido: 3,
+            tipo: "webinar",
+            titulo: "Webinar: Atención al Cliente",
+            valor_llaves: 7,
+          },
+          {
+            id_contenido: 4,
+            tipo: "leccion",
+            titulo: "Finanzas Básicas 2",
+            valor_llaves: 7,
+          },
+          // ... agregar 20 lecciones para simular
+          ...Array.from({ length: 18 }, (_, i) => ({
+            id_contenido: 5 + i,
+            tipo: "leccion",
+            titulo: `Lección Extra ${i + 1}`,
+            valor_llaves: 7,
+          })),
+        ],
+        progreso: [
+          // Progreso para negocio 1 (Carlos) - Cumple lecciones
+          ...Array.from({ length: 20 }, (_, i) => ({
+            id_progreso: i + 1,
+            id_negocio: 1,
+            id_contenido: i + 1,
+            llaves_ganadas: 7,
+          })),
+          {
+            id_progreso: 21,
+            id_negocio: 1,
+            id_contenido: 3,
+            llaves_ganadas: 7,
+          }, // Webinar
+          // Progreso para negocio 2 (Carlos) - Algunas lecciones
+          {
+            id_progreso: 22,
+            id_negocio: 2,
+            id_contenido: 1,
+            llaves_ganadas: 7,
+          },
+          {
+            id_progreso: 23,
+            id_negocio: 2,
+            id_contenido: 2,
+            llaves_ganadas: 7,
+          },
+          // Progreso para negocio 3 (Sofia)
+          {
+            id_progreso: 24,
+            id_negocio: 3,
+            id_contenido: 1,
+            llaves_ganadas: 7,
+          },
+          {
+            id_progreso: 25,
+            id_negocio: 3,
+            id_contenido: 3,
+            llaves_ganadas: 7,
+          }, // Webinar
+          // Progreso para los otros 9 negocios de Carlos para cumplir meta de negocios
+          ...Array.from({ length: 9 }, (v, k) => k + 4).flatMap((negocioId) =>
+            Array.from({ length: 20 }, (_, i) => ({
+              id_progreso: 100 + (negocioId - 4) * 20 + i,
+              id_negocio: negocioId,
+              id_contenido: i + 1,
+              llaves_ganadas: 7,
+            }))
+          ),
+        ],
+        llaves: [
+          { id_llaves: 1, id_negocio: 1, total: 21 * 7, usadas: 10 }, // 20 lecciones + 1 webinar
+          { id_llaves: 2, id_negocio: 2, total: 2 * 7, usadas: 0 },
+          { id_llaves: 3, id_negocio: 3, total: 2 * 7, usadas: 5 },
+          // ... llaves para los otros negocios de Carlos
+          ...Array.from({ length: 9 }, (v, k) => ({
+            id_llaves: 4 + k,
+            id_negocio: 4 + k,
+            total: 20 * 7,
+            usadas: Math.floor(Math.random() * 50),
+          })),
+        ],
+        recompensas: [
+          {
+            id_recompensa: 1,
+            nombre: "Descuento en mercancía",
+            costo_llaves: 50,
+          },
+          {
+            id_recompensa: 2,
+            nombre: "Asesoría personalizada",
+            costo_llaves: 100,
+          },
+        ],
+        canjes: [
+          { id_canje: 1, id_negocio: 1, id_recompensa: 1, llaves_usadas: 10 },
+        ],
+        incentivos: [
+          {
+            id_incentivo: 1,
+            nombre: "Días de Vacaciones Extra",
+            tipo: "vacaciones",
+            req_negocios: 10,
+            req_lecciones: 20,
+          },
+          {
+            id_incentivo: 2,
+            nombre: "30% Descuento en Tienda",
+            tipo: "descuento",
+            req_negocios: 10,
+            req_lecciones: 20,
+          },
+          {
+            id_incentivo: 3,
+            nombre: "Bono en Nómina",
+            tipo: "nomina",
+            req_negocios: 10,
+            req_lecciones: 20,
+          },
+        ],
+        incentivos_ganados: [
+          // Se calculará dinámicamente en la lógica
+        ],
+      };
+      let negociosChartInstance = null;
+      // --- FIN SIMULACIÓN ---
+
+      document.addEventListener("DOMContentLoaded", function () {
+        // Verificar autenticación (si es necesario, aunque app.js ya lo hace)
+        // const adminId = localStorage.getItem('adminId');
+        const adminId = simulatedData.administrador.matricula_admin; // Simulación
+        if (adminId) {
+          document.getElementById("admin-id").textContent = adminId;
+        } else {
+          // Si no hay adminId, redirigir al login (app.js debería manejar esto)
+          // window.location.href = 'index.html';
+          console.warn("No admin ID found in localStorage"); // Mensaje para depuración
+        }
+
+        // Logout
+        document
+          .getElementById("logout-btn")
+          .addEventListener("click", function () {
+            this.classList.add("rotate-center");
+            setTimeout(() => {
+              localStorage.removeItem("loggedIn");
+              localStorage.removeItem("userType");
+              localStorage.removeItem("adminId"); // Limpiar ID de admin
+              window.location.href = "index.html";
+            }, 500);
+          });
+
+        // Navegación
+        const navButtons = document.querySelectorAll(".nav-btn");
+        const sections = document.querySelectorAll(".dashboard-section");
+
+        navButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            const currentActiveButton =
+              document.querySelector(".nav-btn.active");
+            const currentActiveSection = document.querySelector(
+              ".dashboard-section.active"
+            );
+            const sectionIdToShow =
+              this.getAttribute("data-section") + "-section";
+            const sectionToShow = document.getElementById(sectionIdToShow);
+
+            if (currentActiveButton !== this && sectionToShow) {
+              // Animación botón
+              this.classList.add("jump");
+              setTimeout(() => this.classList.remove("jump"), 500);
+
+              // Quitar active
+              currentActiveButton.classList.remove("active");
+              if (currentActiveSection) {
+                currentActiveSection.classList.remove("active");
+                currentActiveSection.style.opacity = "0";
+              }
+
+              // Poner active
+              this.classList.add("active");
+              sectionToShow.classList.add("active");
+              setTimeout(() => {
+                sectionToShow.style.opacity = "1";
+                // Cargar datos de la sección activa
+                loadSectionData(this.getAttribute("data-section"));
+              }, 50); // Pequeño delay para la transición
+
+              // Guardar estado
+              localStorage.setItem("adminActiveSection", sectionIdToShow);
+            }
+          });
+        });
+
+        // Restaurar estado de la sección activa
+        const savedSection =
+          localStorage.getItem("adminActiveSection") || "dashboard-section";
+        const sectionButton = document.querySelector(
+          `.nav-btn[data-section="${savedSection.replace("-section", "")}"]`
+        );
+        if (sectionButton) {
+          sectionButton.click(); // Simula click para activar la sección y cargar datos
+        } else {
+          // Si no hay sección guardada o no se encuentra el botón, carga el dashboard por defecto
+          loadSectionData("dashboard");
+        }
+
+        // Listeners para búsqueda
+        setupSearchListeners();
+
+        // Listener para cerrar modal de colaborador
+        const closeColaboradorModalBtn = document.querySelector(
+          "#colaborador-modal .close-modal"
+        );
+        const colaboradorModal = document.getElementById("colaborador-modal");
+        if (closeColaboradorModalBtn) {
+          closeColaboradorModalBtn.addEventListener("click", () => {
+            colaboradorModal.style.display = "none";
+          });
+        }
+        if (colaboradorModal) {
+          colaboradorModal.addEventListener("click", (e) => {
+            if (e.target === colaboradorModal) {
+              colaboradorModal.style.display = "none";
+            }
+          });
+        }
+      });
+
+      function loadSectionData(sectionName) {
+        console.log("Loading data for section:", sectionName);
+        switch (sectionName) {
+          case "dashboard":
+            // Ahora llamamos a la función que renderiza el resultado de la consulta simulada
+            renderQueryResultDashboard();
+            break;
+          case "colaboradores":
+            renderColaboradoresList(simulatedData.colaboradores);
+            break;
+          case "progreso":
+            renderProgresoList(simulatedData.micronegocios);
+            break;
+          case "incentivos":
+            renderIncentivos();
+            break;
+        }
+      }
+
+      // NUEVA FUNCIÓN para renderizar el dashboard como resultado de la consulta
+      function renderQueryResultDashboard() {
+        const topPerformerContainer = document.getElementById(
+          "top-performer-summary"
+        );
+        const analysisTextElement = document.getElementById("analysis-text");
+        const chartPlaceholder = document.getElementById("chart-placeholder");
+
+        if (
+          !topPerformerContainer ||
+          !analysisTextElement ||
+          !chartPlaceholder
+        ) {
+          console.error("Elementos del dashboard no encontrados");
+          return;
+        }
+
+        chartPlaceholder.style.display = "block"; // Mostrar mientras se calcula
+
+        // --- Calcular datos para la consulta: "Colaborador con más negocios" ---
+        let negociosPorColaborador = {};
+        simulatedData.colaboradores.forEach((col) => {
+          const count = simulatedData.micronegocios.filter(
+            (n) => n.id_colaborador === col.id_colaborador
+          ).length;
+          negociosPorColaborador[col.id_colaborador] = {
+            colaborador: col,
+            count: count,
+          };
+        });
+
+        let maxNegocios = 0;
+        let topColaborador = null;
+        Object.values(negociosPorColaborador).forEach((data) => {
+          if (data.count > maxNegocios) {
+            maxNegocios = data.count;
+            topColaborador = data.colaborador;
+          }
+        });
+        // --- Fin del cálculo ---
+
+        // --- Renderizar Resumen del Mejor Colaborador ---
+        if (topColaborador) {
+          topPerformerContainer.innerHTML = `
+                    <div class="top-performer-card">
+                        <div class="collaborator-avatar">${
+                          topColaborador.nombre
+                            ? topColaborador.nombre
+                                .substring(0, 2)
+                                .toUpperCase()
+                            : topColaborador.matricula_col.substring(1, 3)
+                        }</div>
+                        <div class="collaborator-info">
+                            <h3>${
+                              topColaborador.nombre ||
+                              `Matrícula: ${topColaborador.matricula_col}`
+                            }</h3>
+                            <p>Registró <strong>${maxNegocios}</strong> Negocios</p>
+                        </div>
+                         
+                    </div>
+                `;
+          analysisTextElement.textContent = `${
+            topColaborador.nombre || topColaborador.matricula_col
+          } es el colaborador con más negocios registrados (${maxNegocios}).`;
+        } else {
+          topPerformerContainer.innerHTML =
+            "<p>No se encontraron datos de colaboradores.</p>";
+          analysisTextElement.textContent =
+            "No hay datos suficientes para el análisis.";
+        }
+
+        // --- Preparar datos para el gráfico ---
+        const chartLabels = Object.values(negociosPorColaborador).map(
+          (data) => data.colaborador.nombre || data.colaborador.matricula_col
+        );
+        const chartData = Object.values(negociosPorColaborador).map(
+          (data) => data.count
+        );
+
+        // --- Renderizar el gráfico ---
+        if (chartLabels.length > 0) {
+          chartPlaceholder.style.display = "none"; // Ocultar placeholder
+          renderNegociosChart(chartLabels, chartData);
+        } else {
+          chartPlaceholder.textContent =
+            "No hay datos para mostrar el gráfico.";
+          chartPlaceholder.style.display = "block"; // Mostrar mensaje
+          // Destruir gráfico anterior si existe
+          if (negociosChartInstance) {
+            negociosChartInstance.destroy();
+            negociosChartInstance = null;
+          }
+        }
+      }
+
+      // NUEVA FUNCIÓN para renderizar el gráfico de barras
+      function renderNegociosChart(labels, data) {
+        const ctx = document
+          .getElementById("colaborador-negocios-chart")
+          ?.getContext("2d");
+        if (!ctx) {
+          console.error("Canvas para gráfico no encontrado");
+          return;
+        }
+
+        // Destruir gráfico anterior si existe para evitar solapamientos
+        if (negociosChartInstance) {
+          negociosChartInstance.destroy();
+        }
+
+        negociosChartInstance = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: "Negocios Registrados",
+                data: data,
+                backgroundColor: "rgba(0, 90, 163, 0.7)", // Coppel Blue semi-transparente
+                borderColor: "rgba(0, 90, 163, 1)", // Coppel Blue sólido
+                borderWidth: 1,
+                hoverBackgroundColor: "rgba(255, 215, 0, 0.8)", // Coppel Yellow en hover
+                hoverBorderColor: "rgba(255, 215, 0, 1)",
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false, // Permitir que se ajuste mejor
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  // Asegurar que los ticks sean enteros si los números son bajos
+                  stepSize: 1,
+                },
+                title: {
+                  display: true,
+                  text: "Número de Negocios",
+                },
+              },
+              x: {
+                title: {
+                  display: true,
+                  text: "Colaborador",
+                },
+              },
+            },
+            plugins: {
+              legend: {
+                display: false, // Ocultar leyenda, el título del dataset es suficiente
+              },
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    let label = context.dataset.label || "";
+                    if (label) {
+                      label += ": ";
+                    }
+                    if (context.parsed.y !== null) {
+                      label += context.parsed.y + " negocios";
+                    }
+                    return label;
+                  },
+                },
+              },
+            },
+          },
+        });
+      }
+
+      function setupSearchListeners() {
+        const searchColaboradorBtn = document.getElementById(
+          "search-colaborador-btn"
+        );
+        const searchColaboradorInput =
+          document.getElementById("search-colaborador");
+        const searchProgresoBtn = document.getElementById(
+          "search-progreso-btn"
+        );
+        const searchProgresoInput = document.getElementById("search-progreso");
+
+        if (searchColaboradorBtn && searchColaboradorInput) {
+          searchColaboradorBtn.addEventListener("click", () => {
+            filterColaboradores(searchColaboradorInput.value);
+          });
+          searchColaboradorInput.addEventListener("keyup", (e) => {
+            if (e.key === "Enter") {
+              filterColaboradores(searchColaboradorInput.value);
+            }
+          });
+        }
+
+        if (searchProgresoBtn && searchProgresoInput) {
+          searchProgresoBtn.addEventListener("click", () => {
+            filterProgreso(searchProgresoInput.value);
+          });
+          searchProgresoInput.addEventListener("keyup", (e) => {
+            if (e.key === "Enter") {
+              filterProgreso(searchProgresoInput.value);
+            }
+          });
+        }
+      }
+
+      // --- Funciones de Renderizado ---
+
+      function renderGeneralDashboard() {
+        const summaryContainer = document.getElementById("summary-stats");
+        const activityContainer = document.getElementById("recent-activity");
+
+        if (!summaryContainer || !activityContainer) return;
+
+        // Calcular estadísticas
+        const totalColaboradores = simulatedData.colaboradores.length;
+        const totalNegocios = simulatedData.micronegocios.length;
+        // Calcular progreso promedio (simplificado)
+        let totalLeccionesVistas = 0;
+        let leccionesUnicasPorNegocio = {};
+        simulatedData.progreso.forEach((p) => {
+          if (
+            simulatedData.contenido.find(
+              (c) => c.id_contenido === p.id_contenido
+            )?.tipo === "leccion"
+          ) {
+            if (!leccionesUnicasPorNegocio[p.id_negocio]) {
+              leccionesUnicasPorNegocio[p.id_negocio] = new Set();
+            }
+            leccionesUnicasPorNegocio[p.id_negocio].add(p.id_contenido);
+          }
+        });
+        Object.values(leccionesUnicasPorNegocio).forEach(
+          (set) => (totalLeccionesVistas += set.size)
+        );
+
+        const totalLeccionesPosibles =
+          totalNegocios *
+          simulatedData.contenido.filter((c) => c.tipo === "leccion").length;
+        const avgProgress =
+          totalLeccionesPosibles > 0
+            ? ((totalLeccionesVistas / totalLeccionesPosibles) * 100).toFixed(1)
+            : 0;
+
+        // Calcular incentivos ganados
+        const { earnedIncentivesCount } = calculateAllIncentives();
+
+        summaryContainer.innerHTML = `
+                <div class="info-row">
+                    <span class="info-label">Total Colaboradores:</span>
+                    <span class="info-value">${totalColaboradores}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Total Microempresarios:</span>
+                    <span class="info-value">${totalNegocios}</span>
+                </div>
+                 <div class="info-row">
+                    <span class="info-label">Progreso Promedio (Lecciones):</span>
+                    <span class="info-value">${avgProgress}%</span>
+                </div>
+                 <div class="info-row">
+                    <span class="info-label">Incentivos Ganados (Total):</span>
+                    <span class="info-value">${earnedIncentivesCount}</span>
+                </div>
+            `;
+
+        // Simular actividad reciente
+        activityContainer.innerHTML = `
+                <ul>
+                    <li>Colaborador ${
+                      simulatedData.colaboradores[0]?.nombre || "N/A"
+                    } registró ${
+          simulatedData.micronegocios.filter(
+            (n) =>
+              n.id_colaborador ===
+              simulatedData.colaboradores[0]?.id_colaborador
+          ).length
+        } negocios.</li>
+                    <li>Microempresario ${
+                      simulatedData.micronegocios[0]?.propietario || "N/A"
+                    } completó ${
+          simulatedData.progreso.filter(
+            (p) => p.id_negocio === simulatedData.micronegocios[0]?.id_negocio
+          ).length
+        } contenidos.</li>
+                    ${
+                      earnedIncentivesCount > 0
+                        ? `<li>${earnedIncentivesCount} incentivos fueron otorgados recientemente.</li>`
+                        : "<li>Aún no se han otorgado incentivos.</li>"
+                    }
+                </ul>
+            `;
+      }
+
+      function renderColaboradoresList(colaboradores) {
+        const listContainer = document.getElementById("colaboradores-list");
+        if (!listContainer) return;
+        listContainer.innerHTML = ""; // Limpiar
+
+        if (colaboradores.length === 0) {
+          listContainer.innerHTML = "<p>No se encontraron colaboradores.</p>";
+          return;
+        }
+
+        colaboradores.forEach((col, index) => {
+          const negociosRegistrados = simulatedData.micronegocios.filter(
+            (n) => n.id_colaborador === col.id_colaborador
+          ).length;
+          const { progressText, incentiveStatusClass } =
+            calculateIncentiveProgress(col.id_colaborador);
+
+          const card = document.createElement("div");
+          card.className = "collaborator-card slide-in-right"; // Reusamos estilo similar
+          card.style.animationDelay = `${index * 0.05}s`;
+          card.dataset.id = col.id_colaborador; // Añadir data-id
+
+          card.innerHTML = `
+                    <div class="collaborator-avatar">${
+                      col.nombre
+                        ? col.nombre.substring(0, 2).toUpperCase()
+                        : col.matricula_col.substring(1, 3)
+                    }</div>
+                    <div class="collaborator-info">
+                        <h3>${
+                          col.nombre || `Matrícula: ${col.matricula_col}`
+                        } (${col.num_empleado})</h3>
+                        <p>Negocios Registrados: ${negociosRegistrados} / ${
+            col.meta_negocios || 10
+          }</p>
+                        <p class="incentive-progress ${incentiveStatusClass}">Progreso Incentivo: ${progressText}</p>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#005AA3" class="arrow-icon">
+                        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+                    </svg>
+                `;
+          // Añadir event listener para abrir modal
+          card.addEventListener("click", () =>
+            showCollaboratorDetails(col.id_colaborador)
+          );
+          listContainer.appendChild(card);
+        });
+      }
+
+      function showCollaboratorDetails(colaboradorId) {
+        const colaborador = simulatedData.colaboradores.find(
+          (c) => c.id_colaborador === colaboradorId
+        );
+        const modal = document.getElementById("colaborador-modal");
+        const modalBody = document.getElementById("colaborador-modal-body");
+        const modalTitle = document.getElementById("colaborador-modal-title");
+
+        if (!colaborador || !modal || !modalBody || !modalTitle) return;
+
+        const negocios = simulatedData.micronegocios.filter(
+          (n) => n.id_colaborador === colaboradorId
+        );
+        const { progressDetails, earnedIncentives } =
+          calculateIncentiveProgress(colaboradorId, true); // Get detailed progress
+
+        modalTitle.textContent = `Detalles de ${
+          colaborador.nombre || colaborador.matricula_col
+        }`;
+
+        let negociosHtml = "<h4>Negocios Registrados:</h4>";
+        if (negocios.length > 0) {
+          negociosHtml += "<ul>";
+          negocios.forEach((n) => {
+            const progresoNegocio = simulatedData.progreso.filter(
+              (p) => p.id_negocio === n.id_negocio
+            );
+            const leccionesVistas = progresoNegocio.filter(
+              (p) =>
+                simulatedData.contenido.find(
+                  (c) => c.id_contenido === p.id_contenido
+                )?.tipo === "leccion"
+            ).length;
+            const webinarsVistos = progresoNegocio.filter(
+              (p) =>
+                simulatedData.contenido.find(
+                  (c) => c.id_contenido === p.id_contenido
+                )?.tipo === "webinar"
+            ).length;
+            const llaves =
+              simulatedData.llaves.find((l) => l.id_negocio === n.id_negocio)
+                ?.total || 0;
+            negociosHtml += `<li>${n.nombre} (${n.propietario}) - ${leccionesVistas} lecc., ${webinarsVistos} web., ${llaves} llaves</li>`;
+          });
+          negociosHtml += "</ul>";
+        } else {
+          negociosHtml += "<p>Ningún negocio registrado aún.</p>";
+        }
+
+        let incentivosHtml = "<h4>Progreso de Incentivos:</h4>";
+        incentivosHtml += `<p>Negocios requeridos: ${progressDetails.negociosConMetaLecciones} / ${progressDetails.reqNegocios}</p>`;
+        incentivosHtml += `<p>Lecciones requeridas por negocio: ${progressDetails.reqLecciones}</p>`;
+        if (earnedIncentives.length > 0) {
+          incentivosHtml += "<h5>Incentivos Ganados:</h5><ul>";
+          earnedIncentives.forEach((inc) => {
+            incentivosHtml += `<li>${inc.nombre} (${inc.tipo})</li>`;
+          });
+          incentivosHtml += "</ul>";
+        } else {
+          incentivosHtml += "<p>Aún no ha ganado incentivos.</p>";
+        }
+
+        modalBody.innerHTML = `
+                <div class="detail-section">
+                    <h4>Información Básica</h4>
+                    <div class="info-row">
+                        <span class="info-label">Nombre:</span>
+                        <span class="info-value">${
+                          colaborador.nombre || "N/D"
+                        }</span>
+                    </div>
+                     <div class="info-row">
+                        <span class="info-label">Matrícula:</span>
+                        <span class="info-value">${
+                          colaborador.matricula_col
+                        }</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">No. Empleado:</span>
+                        <span class="info-value">${
+                          colaborador.num_empleado
+                        }</span>
+                    </div>
+                     <div class="info-row">
+                        <span class="info-label">Meta Negocios:</span>
+                        <span class="info-value">${
+                          colaborador.meta_negocios || 10
+                        }</span>
+                    </div>
+                </div>
+                 <div class="detail-section">
+                    ${negociosHtml}
+                </div>
+                 <div class="detail-section">
+                     ${incentivosHtml}
+                </div>
+            `;
+
+        modal.style.display = "block";
+      }
+
+      function renderProgresoList(micronegocios) {
+        const listContainer = document.getElementById("progreso-list");
+        if (!listContainer) return;
+        listContainer.innerHTML = ""; // Limpiar
+
+        if (micronegocios.length === 0) {
+          listContainer.innerHTML =
+            "<p>No hay microempresarios registrados.</p>";
+          return;
+        }
+
+        micronegocios.forEach((negocio, index) => {
+          const colaborador = simulatedData.colaboradores.find(
+            (c) => c.id_colaborador === negocio.id_colaborador
+          );
+          const progreso = simulatedData.progreso.filter(
+            (p) => p.id_negocio === negocio.id_negocio
+          );
+          const llavesData = simulatedData.llaves.find(
+            (l) => l.id_negocio === negocio.id_negocio
+          );
+
+          const leccionesVistas = new Set(
+            progreso
+              .map((p) => p.id_contenido)
+              .filter(
+                (id) =>
+                  simulatedData.contenido.find((c) => c.id_contenido === id)
+                    ?.tipo === "leccion"
+              )
+          ).size;
+
+          const webinarsVistos = new Set(
+            progreso
+              .map((p) => p.id_contenido)
+              .filter(
+                (id) =>
+                  simulatedData.contenido.find((c) => c.id_contenido === id)
+                    ?.tipo === "webinar"
+              )
+          ).size;
+
+          const totalLecciones = simulatedData.contenido.filter(
+            (c) => c.tipo === "leccion"
+          ).length;
+          const progressPercent =
+            totalLecciones > 0
+              ? ((leccionesVistas / totalLecciones) * 100).toFixed(0)
+              : 0;
+
+          const card = document.createElement("div");
+          card.className = "course-card slide-in-right"; // Reusar estilo
+          card.style.animationDelay = `${index * 0.05}s`;
+          card.innerHTML = `
+                    <div class="course-header">
+                        <h3>${negocio.nombre} (${negocio.propietario})</h3>
+                        <span class="progress-badge">Col: ${
+                          colaborador
+                            ? colaborador.nombre || colaborador.matricula_col
+                            : "N/A"
+                        }</span>
+                    </div>
+                     <p>Lecciones: ${leccionesVistas}/${totalLecciones} | Webinars: ${webinarsVistos} | Llaves: ${
+            llavesData?.total || 0
+          } (Usadas: ${llavesData?.usadas || 0})</p>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: ${progressPercent}%" title="${progressPercent}% Lecciones Completadas"></div>
+                    </div>
+                    <small>Descripción: ${
+                      negocio.descripcion_negocio || "N/A"
+                    }</small>
+                 `;
+          listContainer.appendChild(card);
+        });
+      }
+
+      function renderIncentivos() {
+        const rulesContainer = document.getElementById("incentive-rules");
+        const earnedContainer = document.getElementById(
+          "earned-incentives-list"
+        );
+        if (!rulesContainer || !earnedContainer) return;
+
+        // Mostrar reglas
+        rulesContainer.innerHTML = "<ul>";
+        simulatedData.incentivos.forEach((inc) => {
+          rulesContainer.innerHTML += `<li><strong>${inc.nombre} (${inc.tipo}):</strong> Requiere ${inc.req_negocios} negocios registrados, cada uno con al menos ${inc.req_lecciones} lecciones vistas.</li>`;
+        });
+        rulesContainer.innerHTML +=
+          "</ul><p><em>Nota: Los webinars son opcionales pero suman llaves para el microempresario.</em></p>";
+
+        // Mostrar ganadores
+        const { earnedIncentivesList } = calculateAllIncentives();
+        earnedContainer.innerHTML = ""; // Limpiar
+
+        if (earnedIncentivesList.length === 0) {
+          earnedContainer.innerHTML =
+            "<p>Ningún colaborador ha ganado incentivos aún.</p>";
+          return;
+        }
+
+        earnedContainer.innerHTML = "<ul>";
+        earnedIncentivesList.forEach((ganador) => {
+          earnedContainer.innerHTML += `<li><strong>${
+            ganador.colaborador.nombre || ganador.colaborador.matricula_col
+          }:</strong> Ganó "${ganador.incentivo.nombre}"</li>`;
+        });
+        earnedContainer.innerHTML += "</ul>";
+      }
+
+      // --- Funciones de Cálculo y Filtrado ---
+
+      function calculateIncentiveProgress(colaboradorId, detailed = false) {
+        const colaborador = simulatedData.colaboradores.find(
+          (c) => c.id_colaborador === colaboradorId
+        );
+        if (!colaborador)
+          return {
+            progressText: "Colaborador no encontrado",
+            incentiveStatusClass: "inactive",
+            progressDetails: {},
+            earnedIncentives: [],
+          };
+
+        const negociosColaborador = simulatedData.micronegocios.filter(
+          (n) => n.id_colaborador === colaboradorId
+        );
+        const incentivoBase = simulatedData.incentivos[0]; // Asumimos que todos tienen los mismos requisitos base por ahora
+        const reqNegocios = incentivoBase.req_negocios;
+        const reqLecciones = incentivoBase.req_lecciones;
+
+        let negociosConMetaLecciones = 0;
+        negociosColaborador.forEach((negocio) => {
+          const progresoNegocio = simulatedData.progreso.filter(
+            (p) => p.id_negocio === negocio.id_negocio
+          );
+          const leccionesVistas = new Set(
+            progresoNegocio
+              .map((p) => p.id_contenido)
+              .filter(
+                (id) =>
+                  simulatedData.contenido.find((c) => c.id_contenido === id)
+                    ?.tipo === "leccion"
+              )
+          ).size;
+
+          if (leccionesVistas >= reqLecciones) {
+            negociosConMetaLecciones++;
+          }
+        });
+
+        const cumpleMetaNegocios = negociosConMetaLecciones >= reqNegocios;
+
+        let progressText = `${negociosConMetaLecciones}/${reqNegocios} negocios c/ ≥${reqLecciones} lecc.`;
+        let incentiveStatusClass = "pending";
+        let earnedIncentives = [];
+
+        if (cumpleMetaNegocios) {
+          progressText = `¡Meta Cumplida! (${negociosConMetaLecciones} negocios)`;
+          incentiveStatusClass = "active";
+          // Asignar todos los incentivos si cumple (simplificado)
+          earnedIncentives = simulatedData.incentivos;
+        } else if (negociosConMetaLecciones > 0) {
+          incentiveStatusClass = "pending";
+        } else {
+          incentiveStatusClass = "inactive";
+        }
+
+        if (detailed) {
+          return {
+            progressText,
+            incentiveStatusClass,
+            progressDetails: {
+              negociosConMetaLecciones,
+              reqNegocios,
+              reqLecciones,
+            },
+            earnedIncentives,
+          };
+        } else {
+          return { progressText, incentiveStatusClass };
+        }
+      }
+
+      function calculateAllIncentives() {
+        let earnedIncentivesCount = 0;
+        let earnedIncentivesList = []; // { colaborador, incentivo }
+
+        simulatedData.colaboradores.forEach((col) => {
+          const { earnedIncentives } = calculateIncentiveProgress(
+            col.id_colaborador,
+            true
+          );
+          if (earnedIncentives.length > 0) {
+            earnedIncentives.forEach((inc) => {
+              earnedIncentivesList.push({ colaborador: col, incentivo: inc });
+              earnedIncentivesCount++;
+            });
+          }
+        });
+
+        // Aquí podrías guardar en simulatedData.incentivos_ganados si fuera necesario persistir
+        // simulatedData.incentivos_ganados = earnedIncentivesList.map(item => ({ ... })); // Mapear a la estructura de la tabla
+
+        return { earnedIncentivesCount, earnedIncentivesList };
+      }
+
+      function filterColaboradores(searchTerm) {
+        const lowerSearchTerm = searchTerm.toLowerCase().trim();
+        if (!lowerSearchTerm) {
+          renderColaboradoresList(simulatedData.colaboradores); // Mostrar todos si no hay término
+          return;
+        }
+        const filtered = simulatedData.colaboradores.filter(
+          (col) =>
+            (col.nombre &&
+              col.nombre.toLowerCase().includes(lowerSearchTerm)) ||
+            col.matricula_col.toLowerCase().includes(lowerSearchTerm) ||
+            col.num_empleado.toLowerCase().includes(lowerSearchTerm)
+        );
+        renderColaboradoresList(filtered);
+      }
+
+      function filterProgreso(searchTerm) {
+        const lowerSearchTerm = searchTerm.toLowerCase().trim();
+        if (!lowerSearchTerm) {
+          renderProgresoList(simulatedData.micronegocios); // Mostrar todos si no hay término
+          return;
+        }
+        const filtered = simulatedData.micronegocios.filter((negocio) => {
+          const colaborador = simulatedData.colaboradores.find(
+            (c) => c.id_colaborador === negocio.id_colaborador
+          );
+          return (
+            negocio.nombre.toLowerCase().includes(lowerSearchTerm) ||
+            negocio.propietario.toLowerCase().includes(lowerSearchTerm) ||
+            (colaborador &&
+              (colaborador.nombre?.toLowerCase().includes(lowerSearchTerm) ||
+                colaborador.matricula_col
+                  .toLowerCase()
+                  .includes(lowerSearchTerm)))
+          );
+        });
+        renderProgresoList(filtered);
+      }
+    </script>
+  </body>
+</html>

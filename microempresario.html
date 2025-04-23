@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coppel App - Microempresario</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#005AA3">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="iphone-container">
+        <div class="iphone-notch"></div>
+        <div class="iphone-screen">
+            <header class="app-header">
+                <img src="icons\Coppel logo.png" alt="Coppel Logo" class="logo">
+                <div class="user-info">
+                    <span id="user-email"></span>
+                    <button class="logout-btn" id="logout-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#FFD700">
+                            <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                        </svg>
+                    </button>
+                </div>
+            </header>
+            
+            <nav class="bottom-nav">
+                <button class="nav-btn active" data-section="registro">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#FFD700">
+                        <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                    </svg>
+                    <span>Registro</span>
+                </button>
+                <button class="nav-btn" data-section="cursos">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#FFD700">
+                        <path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/>
+                    </svg>
+                    <span>Cursos</span>
+                </button>
+                <button class="nav-btn" data-section="notificaciones">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#FFD700">
+                        <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/>
+                    </svg>
+                    <span>Notificaciones</span>
+                </button>
+            </nav>
+            
+            <main class="dashboard-container">
+                <!-- Sección Registro -->
+                <section id="registro-section" class="dashboard-section active">
+                    <h2 class="slide-in-left">Mi Registro</h2>
+                    <div class="card swing-in-top-fwd">
+                        <div class="card-header">
+                            <h3>Información personal</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="info-row">
+                                <span class="info-label">Nombre:</span>
+                                <span class="info-value">Juan Pérez López</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">RFC:</span>
+                                <span class="info-value">PERJ800101ABC</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Dirección:</span>
+                                <span class="info-value">Calle Falsa 123, Col. Centro, Culiacán, Sin.</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Teléfono:</span>
+                                <span class="info-value">6671234567</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card swing-in-top-fwd" style="animation-delay: 0.1s;">
+                        <div class="card-header">
+                            <h3>Información de negocio</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="info-row">
+                                <span class="info-label">Nombre del negocio:</span>
+                                <span class="info-value">Miscelánea "La Económica"</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Giro:</span>
+                                <span class="info-value">Comercio al por menor</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Antigüedad:</span>
+                                <span class="info-value">3 años</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Ventas promedio mensual:</span>
+                                <span class="info-value">$25,000 MXN</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-secondary jello-horizontal">Actualizar información</button>
+                </section>
+                
+                <!-- Sección Cursos -->
+                <section id="cursos-section" class="dashboard-section">
+                    <h2 class="slide-in-left">Cursos disponibles</h2>
+                    <div class="course-card flip-in-hor-top">
+                        <div class="course-header">
+                            <h3>Finanzas básicas para tu negocio</h3>
+                            <span class="progress-badge">60% completado</span>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 60%"></div>
+                        </div>
+                        <p>Aprende a manejar las finanzas de tu negocio de manera efectiva.</p>
+                        <button class="btn-primary">Continuar curso</button>
+                    </div>
+                    
+                    <div class="course-card flip-in-hor-top" style="animation-delay: 0.1s;">
+                        <div class="course-header">
+                            <h3>Marketing digital para emprendedores</h3>
+                            <span class="progress-badge">25% completado</span>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 25%"></div>
+                        </div>
+                        <p>Descubre cómo promocionar tu negocio en redes sociales.</p>
+                        <button class="btn-primary">Continuar curso</button>
+                    </div>
+                    
+                    <div class="course-card flip-in-hor-top" style="animation-delay: 0.2s;">
+                        <div class="course-header">
+                            <h3>Atención al cliente excelente</h3>
+                            <span class="progress-badge">0% completado</span>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 0%"></div>
+                        </div>
+                        <p>Mejora la experiencia de tus clientes y fidelízalos.</p>
+                        <button class="btn-primary">Comenzar curso</button>
+                    </div>
+                </section>
+                
+                <!-- Sección Notificaciones -->
+                <section id="notificaciones-section" class="dashboard-section">
+                    <h2 class="slide-in-left">Notificaciones</h2>
+                    <div class="notification-list">
+                        <div class="notification-item unread puff-in-center">
+                            <div class="notification-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#005AA3">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                                </svg>
+                            </div>
+                            <div class="notification-content">
+                                <h3>Nuevo curso disponible</h3>
+                                <p>Hemos agregado el curso "Ventas efectivas" a tu catálogo.</p>
+                                <span class="notification-time">Hace 2 horas</span>
+                            </div>
+                        </div>
+                        
+                        <div class="notification-item puff-in-center" style="animation-delay: 0.1s;">
+                            <div class="notification-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#005AA3">
+                                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                                </svg>
+                            </div>
+                            <div class="notification-content">
+                                <h3>Recordatorio: Actualiza tus datos</h3>
+                                <p>Por favor actualiza tu información fiscal antes del 30 de noviembre.</p>
+                                <span class="notification-time">Ayer</span>
+                            </div>
+                        </div>
+                        
+                        <div class="notification-item puff-in-center" style="animation-delay: 0.2s;">
+                            <div class="notification-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#005AA3">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                </svg>
+                            </div>
+                            <div class="notification-content">
+                                <h3>¡Feliz aniversario!</h3>
+                                <p>Celebramos 2 años de trabajar juntos en el crecimiento de tu negocio.</p>
+                                <span class="notification-time">15 oct 2023</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+        <div class="iphone-home-button"></div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mostrar correo del usuario
+            const userEmail = localStorage.getItem('userEmail');
+            if(userEmail) {
+                document.getElementById('user-email').textContent = userEmail;
+            }
+            
+            // Logout con animación
+            document.getElementById('logout-btn').addEventListener('click', function() {
+                this.classList.add('rotate-center');
+                setTimeout(() => {
+                    localStorage.removeItem('loggedIn');
+                    localStorage.removeItem('userEmail');
+                    window.location.href = 'index.html';
+                }, 500);
+            });
+            
+            // Navegación entre secciones con animación
+            const navButtons = document.querySelectorAll('.nav-btn');
+            const sections = document.querySelectorAll('.dashboard-section');
+            
+            navButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Animación del botón
+                    this.classList.add('jump');
+                    setTimeout(() => this.classList.remove('jump'), 500);
+                    
+                    // Quitar active de todos los botones y secciones
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    sections.forEach(section => {
+                        section.classList.remove('active');
+                        section.style.opacity = '0';
+                    });
+                    
+                    // Agregar active al botón clickeado
+                    this.classList.add('active');
+                    
+                    // Mostrar la sección correspondiente con animación
+                    const sectionId = this.getAttribute('data-section') + '-section';
+                    const activeSection = document.getElementById(sectionId);
+                    activeSection.classList.add('active');
+                    
+                    setTimeout(() => {
+                        activeSection.style.opacity = '1';
+                    }, 10);
+                });
+            });
+            
+            // Efecto al hacer hover en botones
+            document.querySelectorAll('.btn-primary, .btn-secondary').forEach(btn => {
+                btn.addEventListener('mouseenter', function() {
+                    this.classList.add('pulse');
+                });
+                
+                btn.addEventListener('mouseleave', function() {
+                    this.classList.remove('pulse');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

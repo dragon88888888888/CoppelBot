@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coppel App - Bienvenido</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    <meta name="theme-color" content="#005AA3">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="iphone-container">
+        <div class="iphone-notch"></div>
+        <div class="iphone-screen">
+            <header class="app-header">
+                <img src="icons/Coppel logo.png" alt="Coppel Logo" class="logo pulse">
+                <h1 class="slide-in-top">Bienvenido</h1>
+                <p class="fade-in">Selecciona tu perfil para continuar</p>
+            </header>
+
+            <main class="selection-container">
+                <div class="profile-card scale-in-center" id="microempresario">
+                    <div class="profile-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#FFD700">
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                        </svg>
+                    </div>
+                    <h2>Microempresario</h2>
+                    <p>Accede a tus cursos, registros y notificaciones</p>
+                    <div class="ripple"></div>
+                </div>
+
+                <div class="profile-card scale-in-center" id="empleado" style="animation-delay: 0.2s;">
+                    <div class="profile-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#FFD700">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                        </svg>
+                    </div>
+                    <h2>Empleado Coppel</h2>
+                    <p>Accede a rutas, agenda y registros</p>
+                    <div class="ripple"></div>
+                </div>
+
+                <!-- NUEVO PERFIL ADMINISTRADOR -->
+                <div class="profile-card scale-in-center" id="administrador" style="animation-delay: 0.4s;">
+                    <div class="profile-icon">
+                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#FFD700">
+                           <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/>
+                       </svg>
+                    </div>
+                    <h2>Administrador</h2>
+                    <p>Gestiona colaboradores y supervisa progreso</p>
+                    <div class="ripple"></div>
+                </div>
+                <!-- FIN NUEVO PERFIL -->
+
+            </main>
+
+            <footer class="app-footer">
+                <p>© 2023 Coppel. Todos los derechos reservados.</p>
+                <div class="animated-wave"></div>
+            </footer>
+        </div>
+        <div class="iphone-home-button"></div>
+    </div>
+
+    <!-- Modal para Microempresario -->
+    <div id="microempresarioModal" class="modal">
+        <div class="modal-content">
+            <span class="close">×</span>
+            <h2>Iniciar sesión como Microempresario</h2>
+            <form id="microempresarioForm">
+                <div class="form-group">
+                    <label for="micro-email">Correo electrónico</label>
+                    <input type="email" id="micro-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="micro-password">Contraseña</label>
+                    <input type="password" id="micro-password" required>
+                     <!-- Botón para mostrar/ocultar contraseña -->
+                     <button type="button" class="show-password" id="toggle-micro-password" onclick="togglePasswordVisibility('micro-password', 'toggle-micro-password')">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#005AA3"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+                    </button>
+                </div>
+                <button type="submit" class="login-btn">Ingresar</button>
+                 <p class="forgot-password">¿Olvidaste tu contraseña?</p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para Empleado -->
+    <div id="empleadoModal" class="modal">
+        <div class="modal-content">
+            <span class="close">×</span>
+            <h2>Iniciar sesión como Empleado</h2>
+            <form id="empleadoForm">
+                <div class="form-group">
+                    <label for="employee-number">Número de empleado</label>
+                    <input type="text" id="employee-number" required>
+                </div>
+                <div class="form-group">
+                    <label for="employee-password">Contraseña</label>
+                    <input type="password" id="employee-password" required>
+                     <!-- Botón para mostrar/ocultar contraseña -->
+                     <button type="button" class="show-password" id="toggle-emp-password" onclick="togglePasswordVisibility('employee-password', 'toggle-emp-password')">
+                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#005AA3"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+                    </button>
+                </div>
+                <button type="submit" class="login-btn">Ingresar</button>
+                 <p class="forgot-password">¿Olvidaste tu contraseña?</p>
+            </form>
+        </div>
+    </div>
+
+    <!-- NUEVO MODAL ADMINISTRADOR -->
+    <div id="administradorModal" class="modal">
+        <div class="modal-content">
+            <span class="close">×</span>
+            <h2>Iniciar sesión como Administrador</h2>
+            <form id="administradorForm">
+                <div class="form-group">
+                    <label for="admin-id">Matrícula de Administrador</label>
+                    <input type="text" id="admin-id" required>
+                </div>
+                <div class="form-group">
+                    <label for="admin-password">Contraseña</label>
+                    <input type="password" id="admin-password" required>
+                     <!-- Botón para mostrar/ocultar contraseña -->
+                     <button type="button" class="show-password" id="toggle-admin-password" onclick="togglePasswordVisibility('admin-password', 'toggle-admin-password')">
+                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#005AA3"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+                    </button>
+                </div>
+                <button type="submit" class="login-btn">Ingresar</button>
+                 <p class="forgot-password">¿Olvidaste tu contraseña?</p>
+            </form>
+        </div>
+    </div>
+    <!-- FIN NUEVO MODAL -->
+
+    <script src="js/app.js" defer></script>
+</body>
+</html>
