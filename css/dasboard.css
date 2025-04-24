@@ -1,134 +1,277 @@
-/* Estilos para el Voice Dashboard */
+/* Estilos para el Asistente de Voz del Dashboard */
 
-/* Contenedor principal para resultados de voz */
-.voice-result-container {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-    margin: 20px 0;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    max-height: 500px;
-    opacity: 1;
-}
-
-.voice-result-container.hidden {
-    max-height: 0;
-    opacity: 0;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-}
-
-/* Cabecera del resultado */
-.voice-result-header {
-    background-color: var(--coppel-blue, #005AA3);
+/* Indicador de Estado de Voz */
+.voice-status-indicator {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 90, 163, 0.9);
+    /* Color Coppel Blue */
     color: white;
-    padding: 10px 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding: 10px 20px;
+    border-radius: 20px;
     font-weight: 500;
-}
-
-/* Botón de cerrar */
-.voice-result-close {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 20px;
-    cursor: pointer;
-    height: 24px;
-    width: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: all 0.3s ease;
+    max-width: 80%;
+    text-align: center;
     display: flex;
-    justify-content: center;
     align-items: center;
-    border-radius: 50%;
-    transition: background-color 0.2s;
+    justify-content: center;
+    gap: 10px;
 }
 
-.voice-result-close:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+.voice-status-indicator.hidden {
+    transform: translateX(-50%) translateY(100px);
+    opacity: 0;
+    pointer-events: none;
 }
 
-/* Área de texto de respuesta */
-.voice-result-text {
-    padding: 15px;
-    font-size: 16px;
-    line-height: 1.5;
-    color: #333;
-    max-height: 150px;
-    overflow-y: auto;
+/* Estados del indicador */
+.voice-status-indicator.voice-status-listening {
+    background-color: #FF5555;
+    /* Rojo para indicar grabación */
 }
 
-/* Contenedor para el gráfico */
-.voice-result-chart-container {
-    height: 300px;
-    padding: 15px;
-    border-top: 1px solid #eee;
-    display: none;
-    /* Inicialmente oculto, se muestra cuando hay datos */
+.voice-status-indicator.voice-status-processing {
+    background-color: #FFA500;
+    /* Naranja para procesamiento */
 }
 
-/* Estilos para diferentes estados */
-.voice-status-listening {
-    color: var(--coppel-yellow, #FFD700);
+.voice-status-indicator.voice-status-success {
+    background-color: #4CAF50;
+    /* Verde para éxito */
 }
 
-.voice-status-processing {
-    color: white;
+.voice-status-indicator.voice-status-error {
+    background-color: #FF5555;
+    /* Rojo para error */
 }
 
-.voice-status-success {
-    color: white;
+/* Iconos para los diferentes estados */
+.voice-status-indicator::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-.voice-status-error {
-    color: #FF6B6B;
+.voice-status-indicator.voice-status-listening::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z'/%3E%3Cpath d='M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z'/%3E%3C/svg%3E");
 }
 
-.voice-status-info {
-    color: white;
+.voice-status-indicator.voice-status-processing::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M15.07,11.25L14.17,12.17C13.45,12.89 13,13.5 13,15H11V14.5C11,13.39 11.45,12.39 12.17,11.67L13.41,10.41C13.78,10.05 14,9.55 14,9C14,7.89 13.1,7 12,7A2,2 0 0,0 10,9H8A4,4 0 0,1 12,5A4,4 0 0,1 16,9C16,9.88 15.64,10.67 15.07,11.25M13,19H11V17H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12C22,6.47 17.5,2 12,2Z'/%3E%3C/svg%3E");
 }
 
-/* Estilos para el botón de micrófono */
+.voice-status-indicator.voice-status-success::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z'/%3E%3C/svg%3E");
+}
+
+.voice-status-indicator.voice-status-error::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z'/%3E%3C/svg%3E");
+}
+
+/* Estilos para el Botón de Voz Mejorado */
 .voice-dashboard-input .btn-primary {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: var(--coppel-blue, #005AA3);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-weight: 500;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
 
+/* Estado de grabación */
 .voice-dashboard-input .btn-primary.listening {
     background-color: #FF5555;
-    animation: pulse 1.5s infinite;
+    box-shadow: 0 0 0 0 rgba(255, 85, 85, 0.7);
+    animation: voice-pulse 1.5s infinite;
 }
 
-.voice-dashboard-input .btn-primary:hover {
-    background-color: var(--coppel-blue-dark, #004A8A);
-}
-
-/* Animación de pulso para indicar que está escuchando */
-@keyframes pulse {
+/* Animación de pulso para el botón */
+@keyframes voice-pulse {
     0% {
-        transform: scale(1);
         box-shadow: 0 0 0 0 rgba(255, 85, 85, 0.7);
     }
 
     70% {
-        transform: scale(1.05);
         box-shadow: 0 0 0 10px rgba(255, 85, 85, 0);
     }
 
     100% {
-        transform: scale(1);
         box-shadow: 0 0 0 0 rgba(255, 85, 85, 0);
     }
 }
 
-/* Animación para el texto de escucha */
-@keyframes listening-dots {
+/* Botón de voz con efecto de onda */
+.voice-dashboard-input .btn-primary::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0%;
+    height: 0%;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
+}
+
+.voice-dashboard-input .btn-primary.listening::before {
+    width: 150%;
+    height: 150%;
+    opacity: 1;
+    animation: voice-wave 2s infinite;
+}
+
+@keyframes voice-wave {
+    0% {
+        width: 0%;
+        height: 0%;
+        opacity: 0.5;
+    }
+
+    100% {
+        width: 200%;
+        height: 200%;
+        opacity: 0;
+    }
+}
+
+/* Animación para el ícono de micrófono */
+.voice-dashboard-input .btn-primary svg {
+    transition: transform 0.3s ease;
+}
+
+.voice-dashboard-input .btn-primary.listening svg {
+    animation: voice-icon-pulse 1s infinite;
+}
+
+@keyframes voice-icon-pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Cambio de texto para el estado de grabación */
+.voice-dashboard-input .btn-primary::after {
+    content: "Preguntar al Asistente";
+    margin-left: 8px;
+    transition: opacity 0.3s ease;
+}
+
+.voice-dashboard-input .btn-primary.listening::after {
+    content: "Grabando...";
+    color: white;
+}
+
+/* Indicador de ondas de audio durante la grabación */
+.voice-waveform {
+    display: inline-flex;
+    align-items: flex-end;
+    height: 15px;
+    gap: 2px;
+    margin-left: 5px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.voice-dashboard-input .btn-primary.listening .voice-waveform {
+    opacity: 1;
+}
+
+.voice-waveform span {
+    width: 3px;
+    background-color: white;
+    border-radius: 1px;
+    animation: voice-waveform-anim 1s infinite;
+}
+
+.voice-waveform span:nth-child(1) {
+    height: 6px;
+    animation-delay: 0.1s;
+}
+
+.voice-waveform span:nth-child(2) {
+    height: 10px;
+    animation-delay: 0.2s;
+}
+
+.voice-waveform span:nth-child(3) {
+    height: 14px;
+    animation-delay: 0.3s;
+}
+
+.voice-waveform span:nth-child(4) {
+    height: 8px;
+    animation-delay: 0.4s;
+}
+
+.voice-waveform span:nth-child(5) {
+    height: 12px;
+    animation-delay: 0.5s;
+}
+
+@keyframes voice-waveform-anim {
+    0% {
+        transform: scaleY(0.5);
+    }
+
+    50% {
+        transform: scaleY(1);
+    }
+
+    100% {
+        transform: scaleY(0.5);
+    }
+}
+
+/* Estilos mejorados para texto durante la escucha */
+.listening-text {
+    font-size: 14px;
+    color: white;
+    margin-top: 5px;
+    text-align: center;
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    transition: opacity 0.3s ease, height 0.3s ease;
+}
+
+.voice-dashboard-input.active .listening-text {
+    opacity: 1;
+    height: 20px;
+}
+
+/* Animación para los puntos suspensivos */
+.dots-animation::after {
+    content: "";
+    animation: dots 1.5s infinite;
+}
+
+@keyframes dots {
     0% {
         content: "";
     }
@@ -147,30 +290,5 @@
 
     100% {
         content: "";
-    }
-}
-
-.voice-status-listening::after {
-    content: "";
-    display: inline-block;
-    width: 24px;
-    animation: listening-dots 1.5s infinite;
-}
-
-/* Mejoras para la visualización del gráfico */
-#voice-result-chart {
-    width: 100%;
-    height: 100%;
-}
-
-/* Mejoras para dispositivos móviles */
-@media (max-width: 576px) {
-    .voice-result-text {
-        font-size: 14px;
-        max-height: 120px;
-    }
-
-    .voice-result-chart-container {
-        height: 250px;
     }
 }

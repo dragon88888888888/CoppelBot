@@ -20,15 +20,15 @@ let currentDashboardCharts = {}; // Para gestionar los gráficos del dashboard
 function initVoiceDashboard() {
     console.log("Inicializando Voice Dashboard...");
 
-    // Configurar el botón de voz
-    const voiceAssistantBtn = document.querySelector('.voice-dashboard-input .btn-primary');
+    // Configurar el botón de voz (usa el ID específico para mayor precisión)
+    const voiceAssistantBtn = document.getElementById('voice-assistant-btn');
 
     if (!voiceAssistantBtn) {
         console.error("No se encontró el botón del asistente de voz");
         return;
     }
 
-    // Crear un indicador temporal para notificaciones
+    // Crear un indicador de estado si no existe
     if (!document.getElementById('voice-status-indicator')) {
         const statusIndicator = document.createElement('div');
         statusIndicator.id = 'voice-status-indicator';
@@ -40,8 +40,11 @@ function initVoiceDashboard() {
     initializeLangGraphConversation().then(success => {
         if (success) {
             console.log("LangGraph inicializado correctamente");
+            // Mostrar un indicador sutil de que está listo
+            showStatusIndicator("Asistente de voz listo", "success");
         } else {
             console.error("Error al inicializar LangGraph");
+            showStatusIndicator("Error al inicializar el asistente de voz", "error");
         }
     });
 
@@ -49,9 +52,70 @@ function initVoiceDashboard() {
     setupSpeechRecognition(voiceAssistantBtn);
 }
 
+// Función de ayuda para verificar si el elemento existe en el DOM
+function waitForElement(selector, callback, maxTries = 10, interval = 500) {
+    let tries = 0;
+
+    function checkElement() {
+        const element = document.querySelector(selector);
+        if (element) {
+            callback(element);
+            return;
+        }
+
+        tries++;
+        if (tries < maxTries) {
+            setTimeout(checkElement, interval);
+        } else {
+            console.error(`Elemento "${selector}" no encontrado después de ${maxTries} intentos.`);
+        }
+    }
+
+    checkElement();
+}
+
+// Función para asegurarse de que los cambios se aplican después de cargar la página
+document.addEventListener('DOMContentLoaded', function () {
+    // Esperar a que el botón exista y luego inicializar
+    waitForElement('#voice-assistant-btn', function (button) {
+        initVoiceDashboard();
+    });
+
+    // También podemos esperar al botón original si el nuevo aún no se ha implementado
+    waitForElement('.voice-dashboard-input .btn-primary', function (button) {
+        // Si no tiene ID, asumimos que es el botón original y le asignamos uno
+        if (!button.id) {
+            button.id = 'voice-assistant-btn';
+            // Agregar componentes visuales al botón existente
+            if (!button.querySelector('.voice-waveform')) {
+                const waveform = document.createElement('div');
+                waveform.className = 'voice-waveform';
+                for (let i = 0; i < 5; i++) {
+                    const span = document.createElement('span');
+                    waveform.appendChild(span);
+                }
+                button.appendChild(waveform);
+            }
+
+            // Asegurarse de que existe el div de texto de escucha
+            const voiceDashboardInput = button.closest('.voice-dashboard-input');
+            if (voiceDashboardInput && !voiceDashboardInput.querySelector('.listening-text')) {
+                const listeningText = document.createElement('div');
+                listeningText.className = 'listening-text dots-animation';
+                listeningText.textContent = 'Escuchando';
+                voiceDashboardInput.appendChild(listeningText);
+            }
+
+            initVoiceDashboard();
+        }
+    });
+});
+
+
 /**
  * Configura el reconocimiento de voz
  */
+// Reemplaza la función setupSpeechRecognition existente
 function setupSpeechRecognition(voiceButton) {
     if (!('webkitSpeechRecognition' in window)) {
         console.error("El navegador no soporta reconocimiento de voz");
@@ -67,6 +131,8 @@ function setupSpeechRecognition(voiceButton) {
     recognition.lang = 'es-MX';
 
     let isWaitingForFinalResult = false;
+    const voiceDashboardInput = voiceButton.closest('.voice-dashboard-input');
+    const listeningText = voiceDashboardInput?.querySelector('.listening-text');
 
     // Evento para el botón de voz
     voiceButton.addEventListener('click', function () {
@@ -74,12 +140,14 @@ function setupSpeechRecognition(voiceButton) {
             // Detener si ya está escuchando
             recognition.stop();
             voiceButton.classList.remove('listening');
+            if (voiceDashboardInput) voiceDashboardInput.classList.remove('active');
             showStatusIndicator("Escucha cancelada", "info");
         } else {
             // Iniciar escucha
             try {
                 recognition.start();
                 voiceButton.classList.add('listening');
+                if (voiceDashboardInput) voiceDashboardInput.classList.add('active');
                 showStatusIndicator("Escuchando...", "listening");
                 isWaitingForFinalResult = true;
             } catch (error) {
@@ -97,6 +165,12 @@ function setupSpeechRecognition(voiceButton) {
 
         showStatusIndicator(transcript, "listening");
 
+        // Actualizar texto de escucha con lo que se está reconociendo
+        if (listeningText) {
+            listeningText.textContent = transcript;
+            listeningText.classList.remove('dots-animation');
+        }
+
         // Si es el resultado final
         if (event.results[0].isFinal && isWaitingForFinalResult) {
             isWaitingForFinalResult = false;
@@ -108,6 +182,13 @@ function setupSpeechRecognition(voiceButton) {
     // Evento cuando termina el reconocimiento
     recognition.onend = function () {
         voiceButton.classList.remove('listening');
+        if (voiceDashboardInput) voiceDashboardInput.classList.remove('active');
+
+        if (listeningText) {
+            listeningText.textContent = "Escuchando";
+            listeningText.classList.add('dots-animation');
+        }
+
         if (isWaitingForFinalResult) {
             showStatusIndicator("No escuché nada, intenta de nuevo", "error");
         }
@@ -117,31 +198,50 @@ function setupSpeechRecognition(voiceButton) {
     // Evento en caso de error
     recognition.onerror = function (event) {
         voiceButton.classList.remove('listening');
+        if (voiceDashboardInput) voiceDashboardInput.classList.remove('active');
         console.error('Error en reconocimiento de voz:', event.error);
         showStatusIndicator("Ocurrió un error, intenta de nuevo", "error");
         isWaitingForFinalResult = false;
     };
 }
 
+
 /**
  * Muestra una notificación temporal
  */
+// Reemplaza la función showStatusIndicator existente
 function showStatusIndicator(message, status = "info") {
     const indicator = document.getElementById('voice-status-indicator');
     if (!indicator) return;
 
-    // Configurar el indicador
+    // Limpiar clases de estado anteriores
+    indicator.className = 'voice-status-indicator';
+
+    // Agregar la clase de estado actual
+    indicator.classList.add(`voice-status-${status}`);
+
+    // Configurar el mensaje
     indicator.textContent = message;
-    indicator.className = 'voice-status-indicator voice-status-' + status;
+
+    // Mostrar el indicador
     indicator.classList.remove('hidden');
 
-    // Ocultar después de un tiempo
-    clearTimeout(window.statusIndicatorTimeout);
-    window.statusIndicatorTimeout = setTimeout(() => {
-        indicator.classList.add('hidden');
-    }, status === 'error' ? 5000 : 3000);
-}
+    // Si es un mensaje de éxito o info, ocultarlo después de un tiempo
+    if (status === 'success' || status === 'info') {
+        clearTimeout(window.statusIndicatorTimeout);
+        window.statusIndicatorTimeout = setTimeout(() => {
+            indicator.classList.add('hidden');
+        }, status === 'success' ? 3000 : 2000);
+    }
 
+    // Si es un mensaje de error, ocultarlo después de más tiempo
+    if (status === 'error') {
+        clearTimeout(window.statusIndicatorTimeout);
+        window.statusIndicatorTimeout = setTimeout(() => {
+            indicator.classList.add('hidden');
+        }, 5000);
+    }
+}
 /**
  * Procesa una consulta de voz
  */
