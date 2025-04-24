@@ -1,0 +1,176 @@
+/* Estilos para el Voice Dashboard */
+
+/* Contenedor principal para resultados de voz */
+.voice-result-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    margin: 20px 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    max-height: 500px;
+    opacity: 1;
+}
+
+.voice-result-container.hidden {
+    max-height: 0;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+/* Cabecera del resultado */
+.voice-result-header {
+    background-color: var(--coppel-blue, #005AA3);
+    color: white;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+}
+
+/* Botón de cerrar */
+.voice-result-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    height: 24px;
+    width: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+
+.voice-result-close:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Área de texto de respuesta */
+.voice-result-text {
+    padding: 15px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+/* Contenedor para el gráfico */
+.voice-result-chart-container {
+    height: 300px;
+    padding: 15px;
+    border-top: 1px solid #eee;
+    display: none;
+    /* Inicialmente oculto, se muestra cuando hay datos */
+}
+
+/* Estilos para diferentes estados */
+.voice-status-listening {
+    color: var(--coppel-yellow, #FFD700);
+}
+
+.voice-status-processing {
+    color: white;
+}
+
+.voice-status-success {
+    color: white;
+}
+
+.voice-status-error {
+    color: #FF6B6B;
+}
+
+.voice-status-info {
+    color: white;
+}
+
+/* Estilos para el botón de micrófono */
+.voice-dashboard-input .btn-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--coppel-blue, #005AA3);
+    transition: all 0.3s ease;
+}
+
+.voice-dashboard-input .btn-primary.listening {
+    background-color: #FF5555;
+    animation: pulse 1.5s infinite;
+}
+
+.voice-dashboard-input .btn-primary:hover {
+    background-color: var(--coppel-blue-dark, #004A8A);
+}
+
+/* Animación de pulso para indicar que está escuchando */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 85, 85, 0.7);
+    }
+
+    70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(255, 85, 85, 0);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 85, 85, 0);
+    }
+}
+
+/* Animación para el texto de escucha */
+@keyframes listening-dots {
+    0% {
+        content: "";
+    }
+
+    25% {
+        content: ".";
+    }
+
+    50% {
+        content: "..";
+    }
+
+    75% {
+        content: "...";
+    }
+
+    100% {
+        content: "";
+    }
+}
+
+.voice-status-listening::after {
+    content: "";
+    display: inline-block;
+    width: 24px;
+    animation: listening-dots 1.5s infinite;
+}
+
+/* Mejoras para la visualización del gráfico */
+#voice-result-chart {
+    width: 100%;
+    height: 100%;
+}
+
+/* Mejoras para dispositivos móviles */
+@media (max-width: 576px) {
+    .voice-result-text {
+        font-size: 14px;
+        max-height: 120px;
+    }
+
+    .voice-result-chart-container {
+        height: 250px;
+    }
+}
