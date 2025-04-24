@@ -253,7 +253,9 @@ async function processVoiceCommand(command) {
 // Función modificada para inicializar el asistente de voz integrado con LangGraph
 // --- Dentro de agents.js ---
 
-// Función modificada para inicializar el asistente de voz con modo "click-to-talk, click-to-stop"
+
+
+// Función modificada para inicializar el asistente de voz integrado con LangGraph
 function initVoiceAssistantSection() {
     const micButton = document.getElementById('mic-button');
     const voiceResultContainer = document.getElementById('voice-result');
@@ -263,13 +265,6 @@ function initVoiceAssistantSection() {
         console.error('No se encontraron los elementos del asistente de voz');
         return;
     }
-
-    // Bandera para saber si estamos escuchando activamente
-    let isListening = false;
-    // Variable para acumular la transcripción
-    let accumulatedTranscript = '';
-    // Variable para la instancia de reconocimiento
-    let recognition;
 
     // Inicializar conexión con LangGraph al cargar la interfaz
     voiceResultText.textContent = "Conectando con el asistente...";
@@ -281,167 +276,87 @@ function initVoiceAssistantSection() {
             setTimeout(() => voiceResultContainer.classList.remove('active'), 3000);
         } else {
             voiceResultText.textContent = "No se pudo conectar con el asistente. Verifica la conexión.";
-            // Podrías deshabilitar el botón aquí si la conexión falla
-            // micButton.disabled = true;
         }
     });
 
     // Inicializar reconocimiento de voz si está disponible
     if ('webkitSpeechRecognition' in window) {
-        recognition = new webkitSpeechRecognition();
-        recognition.continuous = true; // Importante: Escucha continua hasta que se detenga manualmente
-        recognition.interimResults = true; // Muestra resultados mientras hablas
+        const recognition = new webkitSpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = true;
         recognition.lang = 'es-MX';
+
+        // Variable para controlar si estamos esperando la respuesta final
+        let isWaitingForFinalResult = false;
 
         // Evento cuando se hace clic en el botón de micrófono
         micButton.addEventListener('click', function () {
-            if (isListening) {
-                // --- Detener la escucha ---
+            if (micButton.classList.contains('listening')) {
+                // Detener el reconocimiento si ya está en proceso
+                recognition.stop();
+                micButton.classList.remove('listening');
+                voiceResultText.textContent = "Escucha cancelada";
+                voiceResultContainer.classList.add('active');
+                setTimeout(() => voiceResultContainer.classList.remove('active'), 2000);
+            } else {
+                // Comenzar a escuchar
                 try {
-                    recognition.stop(); // Detiene el reconocimiento
-                    isListening = false;
-                    micButton.classList.remove('listening');
-                    voiceResultText.textContent = "Procesando..."; // Indica que se envió el comando
+                    recognition.start();
+                    micButton.classList.add('listening');
+                    voiceResultText.textContent = "Escuchando...";
                     voiceResultContainer.classList.add('active');
-
-                    // Procesar el comando acumulado con LangGraph
-                    // Usamos un pequeño retraso para asegurar que onresult finalice
-                    setTimeout(() => {
-                        const commandToProcess = accumulatedTranscript.trim();
-                        if (commandToProcess) {
-                            processVoiceCommand(commandToProcess);
-                        } else {
-                            voiceResultText.textContent = "No dijiste nada.";
-                            setTimeout(() => voiceResultContainer.classList.remove('active'), 2000);
-                        }
-                        accumulatedTranscript = ''; // Limpiar para la próxima vez
-                    }, 50); // Pequeño delay
-
+                    isWaitingForFinalResult = true;
                 } catch (error) {
-                    console.error('Error deteniendo reconocimiento:', error);
-                    // Resetear estado en caso de error al detener
-                    isListening = false;
-                    micButton.classList.remove('listening');
-                    accumulatedTranscript = '';
-                    voiceResultText.textContent = "Error al detener la escucha.";
+                    console.error('Error iniciando reconocimiento de voz:', error);
+                    voiceResultText.textContent = "Error al iniciar el reconocimiento de voz";
                     voiceResultContainer.classList.add('active');
                     setTimeout(() => voiceResultContainer.classList.remove('active'), 3000);
-                }
-
-            } else {
-                // --- Iniciar la escucha ---
-                try {
-                    accumulatedTranscript = ''; // Limpiar transcripción anterior
-                    recognition.start();
-                    isListening = true;
-                    micButton.classList.add('listening');
-                    voiceResultText.textContent = "Escuchando... (presiona de nuevo para detener)";
-                    voiceResultContainer.classList.add('active');
-                } catch (error) {
-                    // Manejar errores comunes como 'already started'
-                    if (error.name === 'InvalidStateError') {
-                        console.warn('Intento de iniciar reconocimiento ya iniciado.');
-                        // Forzar reinicio si está en un estado inválido
-                        try { recognition.abort(); } catch (e) { }
-                        setTimeout(() => {
-                            try {
-                                recognition.start();
-                                isListening = true;
-                                micButton.classList.add('listening');
-                                voiceResultText.textContent = "Escuchando... (presiona de nuevo para detener)";
-                                voiceResultContainer.classList.add('active');
-                            } catch (startError) {
-                                console.error('Error reiniciando reconocimiento:', startError);
-                                voiceResultText.textContent = "Error al iniciar el micrófono.";
-                                isListening = false;
-                                micButton.classList.remove('listening');
-                            }
-                        }, 100);
-                    } else {
-                        console.error('Error iniciando reconocimiento de voz:', error);
-                        voiceResultText.textContent = "Error al iniciar el micrófono.";
-                        voiceResultContainer.classList.add('active');
-                        setTimeout(() => voiceResultContainer.classList.remove('active'), 3000);
-                        isListening = false; // Asegurar que el estado es correcto
-                        micButton.classList.remove('listening');
-                    }
                 }
             }
         });
 
         // Evento cuando se reciben resultados de voz
         recognition.onresult = function (event) {
-            let interimTranscript = '';
-            let finalTranscript = '';
+            const transcript = Array.from(event.results)
+                .map(result => result[0].transcript)
+                .join('');
 
-            for (let i = event.resultIndex; i < event.results.length; ++i) {
-                if (event.results[i].isFinal) {
-                    finalTranscript += event.results[i][0].transcript;
-                } else {
-                    interimTranscript += event.results[i][0].transcript;
-                }
+            voiceResultText.textContent = transcript;
+
+            // Si es el resultado final
+            if (event.results[0].isFinal && isWaitingForFinalResult) {
+                isWaitingForFinalResult = false;
+
+                // Procesar el comando con LangGraph
+                processVoiceCommand(transcript);
             }
-
-            // Actualizar el texto acumulado solo con las partes finales confirmadas
-            accumulatedTranscript += finalTranscript;
-
-            // Mostrar el texto acumulado final + el intermedio actual
-            voiceResultText.textContent = (accumulatedTranscript + interimTranscript) || "Habla ahora...";
-
-            // No procesamos aquí, solo acumulamos y mostramos
         };
 
-        // Evento cuando termina el reconocimiento (porque llamamos a stop() o por error)
+        // Evento cuando termina el reconocimiento
         recognition.onend = function () {
-            // Solo actualizamos el estado visual si NO fue detenido por el usuario
-            // y el estado 'isListening' indica que debería seguir escuchando (caso de error)
-            if (isListening) {
-                console.log("Reconocimiento terminó inesperadamente.");
-                // Podrías intentar reiniciar o simplemente informar al usuario
-                micButton.classList.remove('listening');
-                voiceResultText.textContent = "La escucha se detuvo. Intenta de nuevo.";
-                voiceResultContainer.classList.add('active');
+            micButton.classList.remove('listening');
+            if (isWaitingForFinalResult) {
+                voiceResultText.textContent = "No escuché nada, intenta de nuevo";
                 setTimeout(() => voiceResultContainer.classList.remove('active'), 3000);
-                isListening = false; // Corregir estado
-                accumulatedTranscript = ''; // Limpiar
-            } else {
-                console.log("Reconocimiento detenido correctamente.");
-                // Si isListening es false, significa que el usuario hizo clic para detener,
-                // así que no hacemos nada aquí, el click handler ya se encargó.
             }
+            isWaitingForFinalResult = false;
         };
 
         // Evento en caso de error
         recognition.onerror = function (event) {
-            console.error('Error en reconocimiento de voz:', event.error);
             micButton.classList.remove('listening');
-            isListening = false; // Asegurar estado correcto
-            accumulatedTranscript = ''; // Limpiar
-
-            let errorMsg = "Ocurrió un error en la escucha.";
-            if (event.error === 'no-speech') {
-                errorMsg = "No detecté audio. Asegúrate que el micrófono funciona.";
-            } else if (event.error === 'audio-capture') {
-                errorMsg = "Error capturando audio. ¿Permitiste el acceso al micrófono?";
-            } else if (event.error === 'not-allowed') {
-                errorMsg = "Permiso denegado para usar el micrófono.";
-            } else if (event.error === 'network') {
-                errorMsg = "Error de red durante el reconocimiento.";
-            }
-
-            voiceResultText.textContent = errorMsg;
+            console.error('Error en reconocimiento de voz:', event.error);
+            voiceResultText.textContent = "Ocurrió un error, intenta de nuevo";
             voiceResultContainer.classList.add('active');
-            setTimeout(() => voiceResultContainer.classList.remove('active'), 4000);
+            setTimeout(() => voiceResultContainer.classList.remove('active'), 3000);
+            isWaitingForFinalResult = false;
         };
     } else {
         // Si el navegador no soporta reconocimiento de voz
-        micButton.disabled = true; // Deshabilitar botón si no hay soporte
-        micButton.style.opacity = 0.5;
-        micButton.style.cursor = 'not-allowed';
-        voiceResultText.textContent = "Reconocimiento de voz no disponible en este navegador.";
-        voiceResultContainer.classList.add('active');
-        // No ocultar el mensaje de error
+        micButton.addEventListener('click', function () {
+            voiceResultText.textContent = "Tu navegador no soporta reconocimiento de voz";
+            voiceResultContainer.classList.add('active');
+            setTimeout(() => voiceResultContainer.classList.remove('active'), 3000);
+        });
     }
 }
-
-// --- Fin de la sección modificada en agents.js ---
