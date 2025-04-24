@@ -6,7 +6,7 @@
  */
 
 // Configuración para LangGraph
-const LANGGRAPH_BASE_URL = "https://stood-ride-usd-longitude.trycloudflare.com/langgraph";
+const LANGGRAPH_BASE_URL = "https://trivia-eau-dose-liable.trycloudflare.com/langgraph";
 const ASSISTANT_GRAPH_ID = "assistant_graph";
 const ROUTER_ASSISTANT_ID = "0c9ef1b4-15a8-4529-a82a-7989a1f705c7";
 
